@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #f2f2f2;
+    font-family: Arial;
+}
+
+.heading {
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* FLEXBOX HERE */
+.container {
+    display: flex;
+    flex-wrap: wrap;          
+    justify-content: center; 
+    gap: 20px;
+    padding: 20px;
+}
+
+.box {
+    width: 180px;
+    background: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.box img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+}
+
+.box p {
+    margin-top: 8px;
+    font-weight: bold;
+}
