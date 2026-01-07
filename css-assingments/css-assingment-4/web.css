@@ -1,0 +1,257 @@
+/* ================= RESET ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.navbar-logo {
+    height: 80px;      /* perfect navbar logo height */
+    width: auto;       /* keep original aspect ratio */
+}
+
+
+/* ================= BASE ================= */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #111;
+}
+
+/* ================= HEADER ================= */
+.header {
+    position: sticky;
+    top: 0;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    border-bottom: 1px solid #eee;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.nav a {
+    margin-left: 25px;
+    text-decoration: none;
+    color: #111;
+}
+
+/* ================= HERO ================= */
+.hero {
+    height: 70vh;
+    background: linear-gradient(to right, #290303, #000428);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.hero button {
+    margin-top: 20px;
+    padding: 12px 30px;
+    border: none;
+    background: white;
+    color: #004e92;
+    cursor: pointer;
+}
+.hero {
+    height: 80vh;
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.55),
+            rgba(0, 0, 0, 0.55)
+        ),
+        url("https://plus.unsplash.com/premium_photo-1661776260388-f5d1b14ce8a2?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW5zdXJhbmNlJTIwYnVzaW5lc3N8ZW58MHx8MHx8fDA%3D");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.hero-content {
+    max-width: 700px;
+}
+
+.hero h1 {
+    font-size: 44px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+.hero button {
+    padding: 14px 36px;
+    font-size: 16px;
+    border: none;
+    background: #ffffff;
+    color: #111;
+    cursor: pointer;
+}
+
+/* ================= PLANS ================= */
+.plans {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.plan-cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.plan-card {
+    width: 300px;                 /* BIGGER CARD */
+    background: #ffffff;
+    padding: 25px;                /* more breathing space */
+    border-radius: 12px;          /* smooth edges */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    transition: 
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.plan-card button {
+    margin-top: 15px;
+    padding: 10px 26px;
+    font-size: 14px;
+    background: #004e92;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.plan-card:hover {
+    transform: translateY(-12px); /* lift effect */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+}
+
+
+.plan-card:hover {
+    transform: translateY(-10px);
+}
+
+.plan-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+/* ================= FEATURES ================= */
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 60px 20px;
+    background: #f5f5f5;
+    text-align: center;
+}
+
+.feature {
+    max-width: 200px;
+}
+
+/* ================= ABOUT ================= */
+.about {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 80px 20px;
+}
+
+.about img {
+    width: 100%;
+}
+
+/* ================= STATS ================= */
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 60px 20px;
+    background: #f8f8f8;
+}
+
+.stat-box {
+    text-align: center;
+    width: 150px;
+}
+
+/* ================= CONTACT ================= */
+.contact {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.contact form {
+    max-width: 400px;
+    margin: auto;
+    text-align: left;
+}
+
+.contact input,
+.contact select,
+.contact textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.contact button {
+    width: 100%;
+    padding: 12px;
+    background: #004e92;
+    color: white;
+    border: none;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+    background: #111;
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+
+    .header {
+        flex-direction: column;
+    }
+
+    .nav {
+        margin-top: 10px;
+    }
+
+    .plan-cards,
+    .features,
+    .stats {
+        flex-direction: column;
+    }
+
+    .about {
+        flex-direction: column;
+    }
+
+    
+    
+}
