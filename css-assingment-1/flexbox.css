@@ -9,12 +9,16 @@ body {
     font-family: Arial, sans-serif;
 }
 
+/* FLEX CONTAINER */
 .container {
     display: flex;
+    flex-wrap: wrap;            /* IMPORTANT */
     justify-content: center;
-    margin-top: 50px;
+    gap: 20px;
+    padding: 20px;
 }
 
+/* CARD */
 .card {
     width: 260px;
     background: #222;
@@ -22,12 +26,9 @@ body {
     text-align: center;
     padding: 10px;
     border-radius: 10px;
-
-    /* THIS MAKES IT MOVE */
     transition: transform 0.3s ease;
 }
 
-/* CARD GOES UP */
 .card:hover {
     transform: translateY(-20px);
 }
@@ -43,13 +44,12 @@ body {
 .card-video {
     width: 100%;
     aspect-ratio: 16 / 9;
-    object-fit: contain;   /* NO CROPPING */
-    background: black;     /* fills empty space */
+    object-fit: contain;
+    background: black;
     display: none;
 }
 
-
-/* SWITCH ON HOVER */
+/* HOVER SWITCH */
 .card:hover .card-img {
     display: none;
 }
@@ -61,4 +61,29 @@ body {
 .card p {
     margin-top: 10px;
     font-size: 18px;
+}
+
+/* =========================
+   📱 MOBILE (phones)
+========================= */
+@media (max-width: 600px) {
+    .card {
+        width: 100%;          /* full width */
+        max-width: 360px;     /* prevent too wide */
+    }
+
+    .card-img {
+        height: auto;
+        aspect-ratio: 16 / 9;
+    }
+}
+
+/* =========================
+   📱 TABLET
+========================= */
+@media (min-width: 601px) and (max-width: 900px) {
+    .card {
+        width: 45%;           /* 2 cards per row */
+        max-width: 320px;
+    }
 }
