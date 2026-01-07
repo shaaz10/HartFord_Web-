@@ -58,7 +58,7 @@ body {
     padding: 12px 30px;
     border: none;
     background: white;
-    color: #004e92;
+    color: #000000;
     cursor: pointer;
 }
 .hero {
@@ -68,7 +68,7 @@ body {
             rgba(0, 0, 0, 0.55),
             rgba(0, 0, 0, 0.55)
         ),
-        url("https://plus.unsplash.com/premium_photo-1661776260388-f5d1b14ce8a2?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW5zdXJhbmNlJTIwYnVzaW5lc3N8ZW58MHx8MHx8fDA%3D");
+        url("https://i.pinimg.com/originals/1a/8c/fd/1a8cfd918925eccb32dd58ed9b178118.gif");
     background-size: cover;
     background-position: center;
     display: flex;
@@ -131,7 +131,7 @@ body {
     margin-top: 15px;
     padding: 10px 26px;
     font-size: 14px;
-    background: #004e92;
+    background: #000000;
     color: white;
     border: none;
     border-radius: 25px;
@@ -159,7 +159,7 @@ body {
 .features {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 300px;
     padding: 60px 20px;
     background: #f5f5f5;
     text-align: center;
@@ -178,14 +178,15 @@ body {
 }
 
 .about img {
-    width: 100%;
+    width:600px;
+    height: 500px;
 }
 
 /* ================= STATS ================= */
 .stats {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 100px;
     padding: 60px 20px;
     background: #f8f8f8;
 }
@@ -218,7 +219,7 @@ body {
 .contact button {
     width: 100%;
     padding: 12px;
-    background: #004e92;
+    background: #000000;
     color: white;
     border: none;
 }
