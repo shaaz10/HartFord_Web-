@@ -2,37 +2,87 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Flexbox Flag Layout</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Superhero Hover Videos</title>
+    <link rel="stylesheet" href="flexbox.css">
 </head>
 <body>
 
-<h2 class="heading">Flags Using Flexbox</h2>
+<h1 class="title">Superhero Gallery</h1>
 
 <div class="container">
-    <div class="box">
-        <p>India</p>
-        <img src="https://flagcdn.com/w320/in.png">
-       
+
+    <!-- IRON MAN -->
+    <div class="card">
+        <img class="card-img"
+             src="https://cdn.britannica.com/49/182849-050-4C7FE34F/scene-Iron-Man.jpg"
+             alt="Iron Man">
+
+        <video class="card-video"
+               muted
+               loop
+               playsinline
+               onmouseenter="this.play()"
+               onmouseleave="this.pause(); this.currentTime = 0;">
+            <source src="./resources/ironman.mp4" type="video/mp4">
+        </video>
+
+        <p>Iron Man</p>
     </div>
 
-    <div class="box">
-        <p>USA</p>
-        <img src="https://flagcdn.com/w320/us.png">
-   
+    <!-- BATMAN -->
+    <div class="card">
+        <img class="card-img"
+             src="https://mediaproxy.tvtropes.org/width/1200/https://static.tvtropes.org/pmwiki/pub/images/batman_91.png"
+             alt="Batman">
+
+        <video class="card-video"
+               muted
+               loop
+               playsinline
+               onmouseenter="this.play()"
+               onmouseleave="this.pause(); this.currentTime = 0;">
+            <source src="./resources/batman.mp4" type="video/mp4">
+        </video>
+
+        <p>Batman</p>
     </div>
 
-    <div class="box">
-        <p>UK</p>
-        <img src="https://flagcdn.com/w320/gb.png">
-  
+    <!-- SPIDER-MAN -->
+    <div class="card">
+        <img class="card-img"
+             src="https://i.redd.it/le582psays5d1.jpeg"
+             alt="Spider-Man">
+
+        <video class="card-video"
+               muted
+               loop
+               playsinline
+               onmouseenter="this.play()"
+               onmouseleave="this.pause(); this.currentTime = 0;">
+            <source src="./resources/spiderman.mp4" type="video/mp4">
+        </video>
+
+        <p>Spider-Man</p>
     </div>
 
-    <div class="box">
-        <p>France</p>
-        <img src="https://flagcdn.com/w320/fr.png">
-      
+    <!-- CAPTAIN AMERICA -->
+    <div class="card">
+        <img class="card-img"
+             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBPIRNAn9q9rbnd0s7zvfjIlVETs_Utf700A&s"
+             alt="Captain America">
+
+        <video class="card-video"
+               muted
+               loop
+               playsinline
+               onmouseenter="this.play()"
+               onmouseleave="this.pause(); this.currentTime = 0;">
+            <source src="./resources/captainamerica.mp4" type="video/mp4">
+        </video>
+
+        <p>Captain America</p>
     </div>
+
 </div>
 
 </body>

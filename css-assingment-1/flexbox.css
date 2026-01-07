@@ -5,39 +5,60 @@
 }
 
 body {
-    background: #f2f2f2;
-    font-family: Arial;
+    background: #111;
+    font-family: Arial, sans-serif;
 }
 
-.heading {
-    text-align: center;
-    margin: 20px 0;
-}
-
-/* FLEXBOX HERE */
 .container {
     display: flex;
-    flex-wrap: wrap;          
-    justify-content: center; 
-    gap: 20px;
-    padding: 20px;
+    justify-content: center;
+    margin-top: 50px;
 }
 
-.box {
-    width: 180px;
-    background: white;
-    padding: 10px;
+.card {
+    width: 260px;
+    background: #222;
+    color: white;
     text-align: center;
-    border-radius: 8px;
+    padding: 10px;
+    border-radius: 10px;
+
+    /* THIS MAKES IT MOVE */
+    transition: transform 0.3s ease;
 }
 
-.box img {
+/* CARD GOES UP */
+.card:hover {
+    transform: translateY(-20px);
+}
+
+/* IMAGE */
+.card-img {
     width: 100%;
-    height: 100px;
+    height: 200px;
     object-fit: cover;
 }
 
-.box p {
-    margin-top: 8px;
-    font-weight: bold;
+/* VIDEO */
+.card-video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;   /* NO CROPPING */
+    background: black;     /* fills empty space */
+    display: none;
+}
+
+
+/* SWITCH ON HOVER */
+.card:hover .card-img {
+    display: none;
+}
+
+.card:hover .card-video {
+    display: block;
+}
+
+.card p {
+    margin-top: 10px;
+    font-size: 18px;
 }
