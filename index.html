@@ -2,150 +2,144 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>iStore</title>
+  <title>Simple E-Commerce</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-50 text-gray-900 font-sans">
+<body class="bg-gray-100">
 
 <!-- NAVBAR -->
-<nav class="fixed top-0 w-full bg-white border-b z-50">
-  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-    <h1 class="text-xl font-bold">iStore</h1>
-    <button onclick="show('cart')" class="text-sm font-medium">
+<nav class="bg-white shadow-md">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold">ShopEasy</h1>
+    <button onclick="openCart()" class="bg-blue-600 text-white px-4 py-2 rounded">
       Cart (<span id="cartCount">0</span>)
     </button>
   </div>
 </nav>
 
-<main class="pt-20 max-w-6xl mx-auto px-6">
-
-<!-- HOME -->
-<section id="home">
-  <div class="grid md:grid-cols-2 gap-10 items-center py-20">
-    <div>
-      <h2 class="text-5xl font-bold mb-6">
-        Designed for everyday excellence.
-      </h2>
-      <p class="text-gray-600 mb-8">
-        Simple, beautiful products made for modern life.
-      </p>
-      <button onclick="show('products')" class="px-8 py-4 bg-black text-white rounded-full">
-        Shop Products →
-      </button>
-    </div>
-    <img
-      src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800"
-      class="rounded-3xl shadow-lg"
-    />
-  </div>
-</section>
-
 <!-- PRODUCTS -->
-<section id="products" class="hidden">
-  <h2 class="text-3xl font-bold mb-10">Products</h2>
+<section class="max-w-7xl mx-auto px-4 py-8">
+  <h2 class="text-2xl font-bold mb-6">Products</h2>
 
-  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
     <!-- PRODUCT CARD -->
-    <div class="bg-white rounded-3xl shadow hover:shadow-xl transition p-6">
-      <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600"
-           class="rounded-2xl mb-4">
-      <h3 class="font-bold text-lg">Wireless Headphones</h3>
-      <p class="text-gray-500 mb-4">$299</p>
-      <button onclick="addToCart('Wireless Headphones',299)"
-              class="w-full py-2 bg-black text-white rounded-xl">
+    <div class="bg-white p-4 rounded shadow">
+      <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"
+           class="w-full h-48 object-cover rounded">
+      <h3 class="font-semibold mt-3">Headphones</h3>
+      <p class="text-gray-600">$299</p>
+      <button onclick="addToCart('Headphones',299)"
+        class="mt-3 w-full bg-green-600 text-white py-2 rounded">
         Add to Cart
       </button>
     </div>
 
-    <div class="bg-white rounded-3xl shadow hover:shadow-xl transition p-6">
-      <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600"
-           class="rounded-2xl mb-4">
-      <h3 class="font-bold text-lg">Smart Watch</h3>
-      <p class="text-gray-500 mb-4">$399</p>
+    <div class="bg-white p-4 rounded shadow">
+      <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"
+           class="w-full h-48 object-cover rounded">
+      <h3 class="font-semibold mt-3">Smart Watch</h3>
+      <p class="text-gray-600">$399</p>
       <button onclick="addToCart('Smart Watch',399)"
-              class="w-full py-2 bg-black text-white rounded-xl">
+        class="mt-3 w-full bg-green-600 text-white py-2 rounded">
         Add to Cart
       </button>
     </div>
 
-    <div class="bg-white rounded-3xl shadow hover:shadow-xl transition p-6">
-      <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=600"
-           class="rounded-2xl mb-4">
-      <h3 class="font-bold text-lg">Minimal Watch</h3>
-      <p class="text-gray-500 mb-4">$249</p>
-      <button onclick="addToCart('Minimal Watch',249)"
-              class="w-full py-2 bg-black text-white rounded-xl">
+    <div class="bg-white p-4 rounded shadow">
+      <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400"
+           class="w-full h-48 object-cover rounded">
+      <h3 class="font-semibold mt-3">Sunglasses</h3>
+      <p class="text-gray-600">$189</p>
+      <button onclick="addToCart('Sunglasses',189)"
+        class="mt-3 w-full bg-green-600 text-white py-2 rounded">
         Add to Cart
       </button>
     </div>
 
-  </div>
+    <div class="bg-white p-4 rounded shadow">
+      <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=400"
+           class="w-full h-48 object-cover rounded">
+      <h3 class="font-semibold mt-3">Sneakers</h3>
+      <p class="text-gray-600">$149</p>
+      <button onclick="addToCart('Sneakers',149)"
+        class="mt-3 w-full bg-green-600 text-white py-2 rounded">
+        Add to Cart
+      </button>
+    </div>
 
-  <button onclick="show('home')" class="mt-10 text-sm underline">
-    ← Back to Home
-  </button>
+    <!-- duplicate cards if teacher wants more products -->
+  </div>
 </section>
 
-<!-- CART -->
-<section id="cart" class="hidden">
-  <h2 class="text-3xl font-bold mb-6">Your Cart</h2>
+<!-- CART MODAL -->
+<div id="cartModal"
+     class="fixed inset-0 bg-black bg-opacity-40 hidden flex justify-center items-center">
 
-  <div id="cartItems" class="space-y-4 mb-6 text-gray-600">
-    Cart is empty
+  <div class="bg-white w-full max-w-md p-6 rounded">
+    <h2 class="text-xl font-bold mb-4">Your Cart</h2>
+
+    <div id="cartItems" class="space-y-2 mb-4"></div>
+
+    <p class="font-bold mb-4">Total: $<span id="totalPrice">0</span></p>
+
+    <div class="flex gap-3">
+      <button onclick="closeCart()"
+        class="flex-1 border border-gray-400 py-2 rounded">
+        Close
+      </button>
+      <button onclick="checkout()"
+        class="flex-1 bg-blue-600 text-white py-2 rounded">
+        Checkout
+      </button>
+    </div>
   </div>
+</div>
 
-  <p class="text-xl font-bold mb-6">
-    Total: $<span id="total">0</span>
-  </p>
-
-  <button onclick="show('products')" class="underline text-sm">
-    Continue Shopping
-  </button>
-</section>
-
-</main>
-
-<!-- SIMPLE JS -->
+<!-- SCRIPT -->
 <script>
-let cart = []
+  let cart = [];
+  let total = 0;
 
-function show(page) {
-  ['home','products','cart'].forEach(id =>
-    document.getElementById(id).classList.add('hidden')
-  )
-  document.getElementById(page).classList.remove('hidden')
-}
-
-function addToCart(name, price) {
-  cart.push({ name, price })
-  updateCart()
-}
-
-function updateCart() {
-  document.getElementById('cartCount').innerText = cart.length
-
-  if (cart.length === 0) {
-    document.getElementById('cartItems').innerText = 'Cart is empty'
-    document.getElementById('total').innerText = 0
-    return
+  function addToCart(name, price) {
+    cart.push({ name, price });
+    total += price;
+    document.getElementById("cartCount").innerText = cart.length;
+    updateCart();
   }
 
-  let html = ''
-  let sum = 0
+  function updateCart() {
+    const cartItems = document.getElementById("cartItems");
+    cartItems.innerHTML = "";
 
-  cart.forEach(item => {
-    html += `<p>${item.name} - $${item.price}</p>`
-    sum += item.price
-  })
+    cart.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "flex justify-between border-b py-2";
+      div.innerHTML = `<span>${item.name}</span><span>$${item.price}</span>`;
+      cartItems.appendChild(div);
+    });
 
-  document.getElementById('cartItems').innerHTML = html
-  document.getElementById('total').innerText = sum
-}
+    document.getElementById("totalPrice").innerText = total;
+  }
+
+  function openCart() {
+    document.getElementById("cartModal").classList.remove("hidden");
+  }
+
+  function closeCart() {
+    document.getElementById("cartModal").classList.add("hidden");
+  }
+
+  function checkout() {
+    alert("Order placed successfully!");
+    cart = [];
+    total = 0;
+    updateCart();
+    document.getElementById("cartCount").innerText = 0;
+    closeCart();
+  }
 </script>
 
 </body>
