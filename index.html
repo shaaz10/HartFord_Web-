@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>iStore</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-900 font-sans">
+
+<!-- NAVBAR -->
+<nav class="fixed top-0 w-full bg-white border-b z-50">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <h1 class="text-xl font-bold">iStore</h1>
+    <button onclick="show('cart')" class="text-sm font-medium">
+      Cart (<span id="cartCount">0</span>)
+    </button>
+  </div>
+</nav>
+
+<main class="pt-20 max-w-6xl mx-auto px-6">
+
+<!-- HOME -->
+<section id="home">
+  <div class="grid md:grid-cols-2 gap-10 items-center py-20">
+    <div>
+      <h2 class="text-5xl font-bold mb-6">
+        Designed for everyday excellence.
+      </h2>
+      <p class="text-gray-600 mb-8">
+        Simple, beautiful products made for modern life.
+      </p>
+      <button onclick="show('products')" class="px-8 py-4 bg-black text-white rounded-full">
+        Shop Products →
+      </button>
+    </div>
+    <img
+      src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800"
+      class="rounded-3xl shadow-lg"
+    />
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" class="hidden">
+  <h2 class="text-3xl font-bold mb-10">Products</h2>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+    <!-- PRODUCT CARD -->
+    <div class="bg-white rounded-3xl shadow hover:shadow-xl transition p-6">
+      <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600"
+           class="rounded-2xl mb-4">
+      <h3 class="font-bold text-lg">Wireless Headphones</h3>
+      <p class="text-gray-500 mb-4">$299</p>
+      <button onclick="addToCart('Wireless Headphones',299)"
+              class="w-full py-2 bg-black text-white rounded-xl">
+        Add to Cart
+      </button>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow hover:shadow-xl transition p-6">
+      <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600"
+           class="rounded-2xl mb-4">
+      <h3 class="font-bold text-lg">Smart Watch</h3>
+      <p class="text-gray-500 mb-4">$399</p>
+      <button onclick="addToCart('Smart Watch',399)"
+              class="w-full py-2 bg-black text-white rounded-xl">
+        Add to Cart
+      </button>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow hover:shadow-xl transition p-6">
+      <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=600"
+           class="rounded-2xl mb-4">
+      <h3 class="font-bold text-lg">Minimal Watch</h3>
+      <p class="text-gray-500 mb-4">$249</p>
+      <button onclick="addToCart('Minimal Watch',249)"
+              class="w-full py-2 bg-black text-white rounded-xl">
+        Add to Cart
+      </button>
+    </div>
+
+  </div>
+
+  <button onclick="show('home')" class="mt-10 text-sm underline">
+    ← Back to Home
+  </button>
+</section>
+
+<!-- CART -->
+<section id="cart" class="hidden">
+  <h2 class="text-3xl font-bold mb-6">Your Cart</h2>
+
+  <div id="cartItems" class="space-y-4 mb-6 text-gray-600">
+    Cart is empty
+  </div>
+
+  <p class="text-xl font-bold mb-6">
+    Total: $<span id="total">0</span>
+  </p>
+
+  <button onclick="show('products')" class="underline text-sm">
+    Continue Shopping
+  </button>
+</section>
+
+</main>
+
+<!-- SIMPLE JS -->
+<script>
+let cart = []
+
+function show(page) {
+  ['home','products','cart'].forEach(id =>
+    document.getElementById(id).classList.add('hidden')
+  )
+  document.getElementById(page).classList.remove('hidden')
+}
+
+function addToCart(name, price) {
+  cart.push({ name, price })
+  updateCart()
+}
+
+function updateCart() {
+  document.getElementById('cartCount').innerText = cart.length
+
+  if (cart.length === 0) {
+    document.getElementById('cartItems').innerText = 'Cart is empty'
+    document.getElementById('total').innerText = 0
+    return
+  }
+
+  let html = ''
+  let sum = 0
+
+  cart.forEach(item => {
+    html += `<p>${item.name} - $${item.price}</p>`
+    sum += item.price
+  })
+
+  document.getElementById('cartItems').innerHTML = html
+  document.getElementById('total').innerText = sum
+}
+</script>
+
+</body>
+</html>
