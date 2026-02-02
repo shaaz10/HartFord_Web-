@@ -1,0 +1,40 @@
+<div class="min-h-screen bg-slate-100 flex items-center justify-center">
+    <div class="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
+  
+      <h2 class="text-xl font-bold mb-4 text-slate-800">
+        Image Filters
+      </h2>
+  
+      <img
+        src="https://picsum.photos/500"
+        class="rounded-lg mb-4 w-full transition"
+        [style.filter]="
+          'blur(' + blur + 'px) grayscale(' + gray + '%)'
+        "
+      />
+  
+      <label class="block text-sm font-medium text-slate-700">
+        Blur: {{ blur }}px
+      </label>
+      <input
+        type="range"
+        min="0"
+        max="10"
+        [(ngModel)]="blur"
+        class="w-full mb-3"
+      />
+  
+      <label class="block text-sm font-medium text-slate-700">
+        Grayscale: {{ gray }}%
+      </label>
+      <input
+        type="range"
+        min="0"
+        max="100"
+        [(ngModel)]="gray"
+        class="w-full"
+      />
+  
+    </div>
+  </div>
+  

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JavaScript Events – Insurance Dashboard</title>
+
+  <!-- Tailwind CDN (optional, but we’ll use custom CSS mainly) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .section {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .section h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #1f2937;
+    }
+
+    .box {
+      padding: 20px;
+      border: 2px dashed #3b82f6;
+      border-radius: 8px;
+      margin-top: 10px;
+      display: inline-block;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background: #1e40af;
+    }
+
+    .deleteBtn {
+      background: #dc2626;
+    }
+
+    .deleteBtn:hover {
+      background: #991b1b;
+    }
+
+    .approveBtn {
+      background: #16a34a;
+      margin-left: 10px;
+    }
+
+    .approveBtn:hover {
+      background: #166534;
+    }
+
+    .note {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #374151;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>JavaScript Events – Insurance Use Cases</h1>
+
+<!-- Exercise 1 -->
+<div class="section">
+  <h2>Exercise 1: Event Bubbling</h2>
+
+  <div id="paymentSection" class="box">
+    <button id="payBtn">Pay Premium</button>
+  </div>
+
+  <p class="note">
+    Click the button and check console → Bubbling (Child → Parent)
+  </p>
+</div>
+
+<!-- Exercise 2 -->
+<div class="section">
+  <h2>Exercise 2: Event Capturing</h2>
+
+  <div id="policyContainer" class="box">
+    <button id="viewPolicy">View Policy</button>
+  </div>
+
+  <p class="note">
+    Capturing enabled → Parent runs first
+  </p>
+</div>
+
+<!-- Exercise 3 -->
+<div class="section">
+  <h2>Exercise 3: stopPropagation()</h2>
+
+  <div class="box policyCard">
+    <strong>Policy #123</strong>
+    <br /><br />
+    <button class="deleteBtn">Delete Policy</button>
+  </div>
+
+  <p class="note">
+    Delete should NOT trigger navigation
+  </p>
+</div>
+
+<!-- Exercise 4 -->
+<div class="section">
+  <h2>Exercise 4: Real Insurance Claims Dashboard</h2>
+
+  <div class="box claimRow">
+    <span><strong>Claim #456</strong></span>
+    <button class="approveBtn">Approve Claim</button>
+  </div>
+
+  <p class="note">
+    Approve → Only approves, no navigation
+  </p>
+</div>
+
+<script>
+  /* ========== Exercise 1: Bubbling ========== */
+  document.getElementById("paymentSection").addEventListener("click", () => {
+    console.log("Payment Section Clicked");
+  });
+
+  document.getElementById("payBtn").addEventListener("click", () => {
+    console.log("Pay Premium Button Clicked");
+  });
+
+  /* ========== Exercise 2: Capturing ========== */
+  document.getElementById("policyContainer").addEventListener(
+    "click",
+    () => {
+      console.log("Parent: User Validated");
+    },
+    true
+  );
+
+  document.getElementById("viewPolicy").addEventListener(
+    "click",
+    () => {
+      console.log("Child: Policy Displayed");
+    },
+    true
+  );
+
+  /* ========== Exercise 3: stopPropagation ========== */
+  document.querySelector(".policyCard").addEventListener("click", () => {
+    console.log("Navigating to Policy Details");
+  });
+
+  document.querySelector(".deleteBtn").addEventListener("click", (event) => {
+    event.stopPropagation();
+    console.log("Policy Deleted");
+  });
+
+  /* ========== Exercise 4: Combined ========== */
+  document.querySelector(".claimRow").addEventListener("click", () => {
+    console.log("Opening Claim Details");
+  });
+
+  document.querySelector(".approveBtn").addEventListener("click", (event) => {
+    event.stopPropagation();
+    console.log("Claim Approved");
+  });
+</script>
+
+</body>
+</html>

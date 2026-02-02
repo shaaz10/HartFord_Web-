@@ -1,0 +1,50 @@
+.hero {
+    position: relative;
+    height: 100vh;
+    padding: 40px;
+  
+    /* Background image */
+    background-image:
+      linear-gradient(
+        rgba(243, 233, 220, 0.55),  /* lighter overlay */
+      rgba(243, 233, 220, 0.55)
+      ),
+      url('https://st4.depositphotos.com/1003924/22851/i/450/depositphotos_228518864-stock-photo-insurance-agent-house-car-family.jpg');
+  
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Logo stays strong */
+  .hero-logo {
+    position: absolute;
+    top: 24px;
+    left: 32px;
+    height: 80px;
+  }
+  
+  /* Centered content */
+  .hero-content {
+    text-align: center;
+    max-width: 900px;
+  }
+  
+  .hero-content h1 {
+    font-size: 72px;
+    font-weight: 800;
+    margin-bottom: 24px;
+    color: #1a1a1a;
+    line-height: 1.05;
+  }
+  
+  .hero-content p {
+    font-size: 24px;
+    color: #333;
+    line-height: 1.6;
+  }
+  

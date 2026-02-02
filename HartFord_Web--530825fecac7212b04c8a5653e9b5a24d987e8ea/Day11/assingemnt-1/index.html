@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Cart – DOM Practice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6fb;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    input, select {
+      padding: 8px;
+      width: 180px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+
+    /* PRODUCTS */
+    .products {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .product {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .product:last-child {
+      border-bottom: none;
+    }
+
+    .product button {
+      padding: 6px 12px;
+      background: #0d6efd;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .product button:hover {
+      background: #084298;
+    }
+
+    /* CART */
+    .cart {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .cart-item button {
+      margin-left: 4px;
+      padding: 4px 8px;
+    }
+
+    .empty {
+      color: gray;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🛒 Product Store</h1>
+
+<div class="controls">
+  <input id="search" placeholder="Search product">
+  <select id="category">
+    <option value="all">All Categories</option>
+    <option value="electronics">Electronics</option>
+    <option value="books">Books</option>
+  </select>
+  <select id="sort">
+    <option value="">Sort by Price</option>
+    <option value="low">Low → High</option>
+    <option value="high">High → Low</option>
+  </select>
+</div>
+
+<div class="container">
+  <div class="products" id="productList">
+
+  </div>
+
+  <div class="cart">
+    <h3>Cart (<span id="cartCount">0</span>)</h3>
+    <div id="cartItems" class="empty">Cart is empty</div>
+    <h4>Total: ₹<span id="total">0</span></h4>
+  </div>
+</div>
+
+<script src="./scripts.js"/>
+
+ 
+
+
+
+</body>
+</html>

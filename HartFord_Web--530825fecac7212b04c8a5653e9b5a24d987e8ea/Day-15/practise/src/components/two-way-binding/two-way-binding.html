@@ -1,0 +1,21 @@
+<div
+  class="min-h-screen flex items-center justify-center transition"
+  [class.bg-slate-900]="darkMode"
+  [class.bg-slate-100]="!darkMode"
+>
+
+  <div class="p-6 rounded-xl text-center"
+       [class.text-white]="darkMode"
+       [class.text-black]="!darkMode">
+
+    <label class="flex items-center gap-2 justify-center">
+      <input type="checkbox" [(ngModel)]="darkMode">
+      Dark Mode
+    </label>
+
+    <p class="mt-4 text-lg">
+      Theme is {{ darkMode ? 'Dark' : 'Light' }}
+    </p>
+
+  </div>
+</div>

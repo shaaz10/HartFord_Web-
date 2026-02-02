@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Superhero Hover Videos</title>
+    <link rel="stylesheet" href="flexbox.css">
+</head>
+<body>
+
+<h1 class="title">Superhero Gallery by shaaz</h1>
+
+<div class="container">
+
+    <!-- IRON MAN -->  
+    <div class="card">
+        <img class="card-img"
+             src="https://cdn.britannica.com/49/182849-050-4C7FE34F/scene-Iron-Man.jpg"
+             alt="Iron Man">
+
+        <video class="card-video"
+               muted
+               loop
+               playsinline
+               onmouseenter="this.play()"
+               onmouseleave="this.pause(); this.currentTime = 0;">
+            <source src="./resources/ironman.mp4" type="video/mp4">
+        </video>
+
+        <p>Iron Man</p>
+    </div>
+
+    <!-- BATMAN -->
+    <div class="card">
+        <img class="card-img"
+             src="https://mediaproxy.tvtropes.org/width/1200/https://static.tvtropes.org/pmwiki/pub/images/batman_91.png"
+             alt="Batman">
+
+        <video class="card-video"
+               muted
+               loop
+               playsinline
+               onmouseenter="this.play()"
+               onmouseleave="this.pause(); this.currentTime = 0;">
+            <source src="./resources/batman.mp4" type="video/mp4">
+        </video>
+
+        <p>Batman</p>
+    </div>
+
+    <!-- SPIDER-MAN -->
+    <div class="card">
+        <img class="card-img"
+             src="https://i.redd.it/le582psays5d1.jpeg"
+             alt="Spider-Man">
+
+        <video class="card-video"
+               muted
+               loop
+               playsinline
+               onmouseenter="this.play()"
+               onmouseleave="this.pause(); this.currentTime = 0;">
+            <source src="./resources/spiderman.mp4" type="video/mp4">
+        </video>
+
+        <p>Spider-Man</p>
+    </div>
+
+    <!-- CAPTAIN AMERICA -->
+    <div class="card">
+        <img class="card-img"
+             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBPIRNAn9q9rbnd0s7zvfjIlVETs_Utf700A&s"
+             alt="Captain America">
+
+        <video class="card-video"
+               muted
+               loop
+               playsinline
+               onmouseenter="this.play()"
+               onmouseleave="this.pause(); this.currentTime = 0;">
+            <source src="./resources/captainamerica.mp4" type="video/mp4">
+        </video>
+
+        <p>Captain America</p>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Insurance CRUD Dashboard</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  font-family: Arial, sans-serif;
+  background: #eef1f5;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 18px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+/* FORMS */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+input {
+  padding: 8px;
+}
+
+button {
+  padding: 8px 12px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.primary { background: #007bff; color: white; }
+.success { background: #28a745; color: white; }
+.warning { background: #ffc107; }
+.danger { background: #dc3545; color: white; }
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+th {
+  background: #343a40;
+  color: white;
+}
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #333;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 6px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 0.3s;
+}
+
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.success { background: #28a745; }
+.toast.error { background: #dc3545; }
+</style>
+</head>
+
+<body>
+
+<h1>Insurance Policy CRUD Dashboard</h1>
+
+<div class="container">
+
+  <!-- READ / SEARCH -->
+  <div class="card">
+    <h2>🔍 Read / Search Policy</h2>
+    <div class="form-grid">
+      <input id="searchId" placeholder="Enter Policy ID">
+      <button class="primary" onclick="searchPolicy()">Search</button>
+      <button class="warning" onclick="loadPolicies()">View All</button>
+    </div>
+  </div>
+
+  <!-- CREATE / UPDATE -->
+  <div class="card">
+    <h2>➕ Create / Update Policy</h2>
+    <form id="policyForm">
+      <div class="form-grid">
+        <input id="policyId" placeholder="Policy ID" required>
+        <input id="holderName" placeholder="Holder Name" required>
+        <input id="policyType" placeholder="Policy Type" required>
+        <input id="premium" type="number" placeholder="Premium" required>
+        <input id="duration" type="number" placeholder="Duration (years)" required>
+        <button class="success" type="submit">Save Policy</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- TABLE (READ + DELETE) -->
+  <div class="card">
+    <h2>📋 Policies (Read / Delete)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Premium</th>
+          <th>Duration</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="policyTable"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const API = "https://ins-api-od2o.onrender.com/policies";
+const table = document.getElementById("policyTable");
+const toast = document.getElementById("toast");
+
+let editMode = false;
+let editId = null;
+
+/* TOAST */
+function showToast(msg, type="success") {
+  toast.textContent = msg;
+  toast.className = `toast show ${type}`;
+  setTimeout(()=>toast.className="toast",3000);
+}
+
+/* LOAD ALL (READ) */
+async function loadPolicies() {
+  const res = await fetch(API);
+  const data = await res.json();
+  table.innerHTML = "";
+  data.forEach(p => addRow(p));
+}
+
+/* ADD ROW */
+function addRow(p) {
+  table.innerHTML += `
+  <tr>
+    <td>${p.policyId}</td>
+    <td>${p.holderName}</td>
+    <td>${p.policyType}</td>
+    <td>${p.premium}</td>
+    <td>${p.duration}</td>
+    <td>
+      <button class="warning" onclick="editPolicy('${p.policyId}','${p.holderName}','${p.policyType}',${p.premium},${p.duration})">Edit</button>
+      <button class="danger" onclick="deletePolicy('${p.policyId}')">Delete</button>
+    </td>
+  </tr>`;
+}
+
+/* SEARCH (READ) */
+async function searchPolicy() {
+  const id = searchId.value.trim();
+  if (!id) return;
+  const res = await fetch(`${API}/${id}`);
+  if (!res.ok) {
+    showToast("Policy not found", "error");
+    return;
+  }
+  const p = await res.json();
+  table.innerHTML = "";
+  addRow(p);
+  showToast("Policy found");
+}
+
+/* CREATE / UPDATE */
+policyForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  const policy = {
+    policyId: policyId.value,
+    holderName: holderName.value,
+    policyType: policyType.value,
+    premium: +premium.value,
+    duration: +duration.value,
+    active: true
+  };
+
+  if (editMode) {
+    await fetch(`${API}/${editId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(policy)
+    });
+    showToast("Policy updated");
+    editMode = false;
+    editId = null;
+  } else {
+    await fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(policy)
+    });
+    showToast("Policy added");
+  }
+
+  policyForm.reset();
+  loadPolicies();
+});
+
+/* DELETE */
+async function deletePolicy(id) {
+  await fetch(`${API}/${id}`, { method: "DELETE" });
+  showToast("Policy deleted");
+  loadPolicies();
+}
+
+/* EDIT */
+function editPolicy(id,n,t,p,d) {
+  policyId.value=id;
+  holderName.value=n;
+  policyType.value=t;
+  premium.value=p;
+  duration.value=d;
+  editMode=true;
+  editId=id;
+}
+
+loadPolicies();
+</script>
+
+</body>
+</html>

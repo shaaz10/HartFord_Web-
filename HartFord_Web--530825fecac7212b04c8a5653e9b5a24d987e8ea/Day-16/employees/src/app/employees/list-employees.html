@@ -1,0 +1,57 @@
+<div
+  *ngFor="let emp of employees"
+  class="bg-white border border-slate-200 rounded-xl shadow-sm
+         hover:shadow-md transition p-5 mb-6 flex gap-6"
+>
+
+  <!-- Employee Photo -->
+  <img
+    [src]="emp.photoPath"
+    alt="{{ emp.name }}"
+    class="w-28 h-28 rounded-lg object-cover border"
+  />
+
+  <!-- Employee Info -->
+  <div class="flex-1">
+
+    <!-- Name + Status -->
+    <div class="flex items-center justify-between mb-2">
+      <h3 class="text-xl font-semibold text-slate-800">
+        {{ emp.name }}
+      </h3>
+
+      <span
+        class="text-xs px-3 py-1 rounded-full font-medium"
+        [ngClass]="{
+          'bg-green-100 text-green-700': emp.isActive,
+          'bg-red-100 text-red-700': !emp.isActive
+        }"
+      >
+        {{ emp.isActive ? 'Active' : 'Inactive' }}
+      </span>
+    </div>
+
+    <!-- Meta info -->
+    <div class="grid grid-cols-2 gap-y-1 text-sm text-slate-600">
+      <p><strong>Gender:</strong> {{ emp.gender }}</p>
+      <p><strong>Department:</strong> {{ emp.department }}</p>
+      <p>
+        <strong>DOB:</strong>
+        {{ emp.dateOfBirth | date:'mediumDate' }}
+      </p>
+    </div>
+
+    <!-- Contact -->
+    <div class="mt-3 text-sm">
+      <p *ngIf="emp.contactPreference === 'Email'" class="text-slate-700">
+        📧 {{ emp.email }}
+      </p>
+
+      <p *ngIf="emp.contactPreference === 'Phone'" class="text-slate-700">
+        📞 {{ emp.phoneNumber }}
+      </p>
+    </div>
+
+  </div>
+
+</div>

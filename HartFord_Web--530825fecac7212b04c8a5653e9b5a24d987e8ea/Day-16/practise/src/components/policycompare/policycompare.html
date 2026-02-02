@@ -1,0 +1,22 @@
+<div class="max-w-xl mx-auto mt-10 bg-white p-6 rounded-xl shadow">
+
+    <h2 class="text-xl font-bold mb-4">Policy Options</h2>
+  
+    <label class="flex items-center gap-2 mb-3">
+      <input type="checkbox" [(ngModel)]="cashless">
+      Cashless Hospitals
+    </label>
+  
+    <label class="flex items-center gap-2 mb-6">
+      <input type="checkbox" [(ngModel)]="maternity">
+      Maternity Cover
+    </label>
+  
+    <ul class="list-disc ml-6 text-slate-700">
+      <li *ngIf="cashless">Cashless network enabled</li>
+      <li *ngIf="maternity">Maternity expenses covered</li>
+      <li *ngIf="!maternity">Maternity not included</li>
+    </ul>
+  
+  </div>
+  

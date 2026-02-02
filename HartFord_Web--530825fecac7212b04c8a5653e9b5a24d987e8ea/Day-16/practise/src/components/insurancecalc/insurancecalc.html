@@ -1,0 +1,33 @@
+
+<div class="max-w-xl mx-auto mt-10 bg-white p-6 rounded-xl shadow">
+
+    <h2 class="text-2xl font-bold mb-6 text-slate-800">
+      Health Insurance Premium
+    </h2>
+  
+    <label class="block mb-2 font-medium">Age</label>
+    <input
+      type="number"
+      [(ngModel)]="age"
+      class="w-full mb-4 px-4 py-2 border rounded"
+    />
+  
+    <label class="block mb-2 font-medium">Sum Insured (₹)</label>
+    <select
+      [(ngModel)]="sumInsured"
+      class="w-full mb-6 px-4 py-2 border rounded"
+    >
+      <option [value]="500000">5 Lakhs</option>
+      <option [value]="1000000">10 Lakhs</option>
+      <option [value]="2000000">20 Lakhs</option>
+    </select>
+  
+    <div class="bg-slate-100 p-4 rounded text-lg">
+      Estimated Premium:
+      <span class="font-bold text-indigo-600">
+        ₹ {{ premium }}
+      </span>
+    </div>
+  
+  </div>
+  

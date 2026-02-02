@@ -1,0 +1,34 @@
+<div class="max-w-md mx-auto p-6 bg-white rounded shadow">
+
+    <h2 class="text-2xl font-bold mb-4">
+      Message Service Demo
+    </h2>
+  
+    <!-- Input -->
+    <input
+      type="text"
+      placeholder="Enter a message"
+      class="border p-2 w-full mb-3 rounded"
+      [(ngModel)]="newMessage"
+    />
+  
+    <!-- Button -->
+    <button
+      class="bg-indigo-600 text-white px-4 py-2 rounded w-full"
+      (click)="addMessage()"
+    >
+      Add Message
+    </button>
+  
+    <!-- Messages -->
+    <ul class="mt-4 space-y-2">
+      <li
+        *ngFor="let msg of messages"
+        class="bg-slate-100 p-2 rounded"
+      >
+        {{ msg }}
+      </li>
+    </ul>
+  
+  </div>
+  

@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* toastr overrides using plain CSS */
+.toast-success { background:#16a34a; color:#fff; }
+.toast-error { background:#dc2626; color:#fff; }
+.toast-info { background:#2563eb; color:#fff; }
+.toast-warning { background:#eab308; color:#000; }
+.toast-container .ngx-toastr {
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,.1);
+}

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Insurance Dashboard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f1f5f9;
+      color: #1f2937;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2563eb, #1e40af);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+
+    section {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      margin-top: 0;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 8px;
+    }
+
+    /* Customers */
+    #customerList {
+      list-style: none;
+      padding: 0;
+    }
+
+    #customerList li {
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      background: #f9fafb;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #customerList li:hover {
+      background: #e0f2fe;
+    }
+
+    .customer.active {
+      background: #dcfce7;
+      border-left: 5px solid #16a34a;
+      font-weight: bold;
+    }
+
+    /* Policies */
+    .policy {
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      background: #f8fafc;
+      cursor: pointer;
+    }
+
+    .highlight {
+      background-color: #e0f2fe;
+    }
+
+    /* Form */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    input, select {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1e40af;
+    }
+
+    /* Images & links */
+    .extras img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .extras a {
+      display: inline-block;
+      margin-right: 10px;
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1 id="pageTitle">Insurance Customer Dashboard</h1>
+  <p>Manage customers and policies efficiently</p>
+</header>
+
+<main>
+
+  <!-- LEFT COLUMN -->
+  <section>
+    <h2>Customers</h2>
+    <ul id="customerList">
+      <li class="customer">Ravi – Health</li>
+      <li class="customer">Anita – Vehicle</li>
+      <li class="customer">Karan – Life</li>
+    </ul>
+
+    <h2>Policies</h2>
+    <p class="policy">Health Insurance</p>
+    <p class="policy">Vehicle Insurance</p>
+    <p class="policy">Life Insurance</p>
+  </section>
+
+  <!-- RIGHT COLUMN -->
+  <section>
+    <h2>Customer Enquiry</h2>
+
+    <form id="enquiryForm">
+      <input type="text" name="customerName" placeholder="Customer Name" required>
+      <input type="email" name="email" placeholder="Email" required>
+
+      <!-- ✅ POLICY SELECT (IMPORTANT FIX) -->
+      <select name="policy" required>
+        <option value="">Select Insurance Policy</option>
+        <option value="Health">Health Insurance</option>
+        <option value="Vehicle">Vehicle Insurance</option>
+        <option value="Life">Life Insurance</option>
+      </select>
+
+      <button type="submit">Submit Enquiry</button>
+    </form>
+
+    <div class="extras" style="margin-top:20px">
+      <img src="/Images/policy1.avif" alt="Policy Image">
+      <img src="/Images/policyimg2.jpg" alt="Policy Image">
+      <a href="#">View Policy</a>
+      <a href="#">Contact Agent</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- JS FILE -->
+<script src="script.js"></script>
+</body>
+</html>

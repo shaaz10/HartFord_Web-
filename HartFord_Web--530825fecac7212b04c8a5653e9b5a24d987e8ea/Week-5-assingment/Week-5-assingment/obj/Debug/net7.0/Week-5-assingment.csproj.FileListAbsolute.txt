@@ -1,0 +1,15 @@
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/obj/Debug/net7.0/Week-5-assingment.csproj.AssemblyReference.cache
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/obj/Debug/net7.0/Week-5-assingment.GeneratedMSBuildEditorConfig.editorconfig
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/obj/Debug/net7.0/Week-5-assingment.AssemblyInfoInputs.cache
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/obj/Debug/net7.0/Week-5-assingment.AssemblyInfo.cs
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/obj/Debug/net7.0/Week-5-assingment.csproj.CoreCompileInputs.cache
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/bin/Debug/net7.0/Week-5-assingment
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/bin/Debug/net7.0/Week-5-assingment.deps.json
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/bin/Debug/net7.0/Week-5-assingment.runtimeconfig.json
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/bin/Debug/net7.0/Week-5-assingment.dll
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/bin/Debug/net7.0/Week-5-assingment.pdb
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/obj/Debug/net7.0/Week-5-assingment.dll
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/obj/Debug/net7.0/refint/Week-5-assingment.dll
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/obj/Debug/net7.0/Week-5-assingment.pdb
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/obj/Debug/net7.0/Week-5-assingment.genruntimeconfig.cache
+/Users/shaazhussain/Desktop/Hartford_web_Assingmeent/Week-5-assingment/Week-5-assingment/obj/Debug/net7.0/ref/Week-5-assingment.dll

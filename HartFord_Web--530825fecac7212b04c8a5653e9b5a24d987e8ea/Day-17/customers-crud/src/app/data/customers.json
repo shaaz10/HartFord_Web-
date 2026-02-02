@@ -1,0 +1,94 @@
+{
+  "customers": [
+    {
+      "id": "2",
+      "name": "Priya ",
+      "email": "priya.verma@example.com",
+      "phone": "+91-9123456780",
+      "city": "Hyderabad",
+      "country": "India",
+      "totalPurchases": 12,
+      "isActive": true
+    },
+    {
+      "id": "3",
+      "name": "Rahul Mehta",
+      "email": "rahul.mehta@example.com",
+      "phone": "+91-9988776655",
+      "city": "Mumbai",
+      "country": "India",
+      "totalPurchases": 3,
+      "isActive": false
+    },
+    {
+      "id": "4",
+      "name": "Sneha Iyer",
+      "email": "sneha.iyer@example.com",
+      "phone": "+91-9090909090",
+      "city": "Chennai",
+      "country": "India",
+      "totalPurchases": 8,
+      "isActive": true
+    },
+    {
+      "id": "5",
+      "name": "Arjun Patel",
+      "email": "arjun.patel@example.com",
+      "phone": "+91-9345678123",
+      "city": "Ahmedabad",
+      "country": "India",
+      "totalPurchases": 15,
+      "isActive": true
+    },
+    {
+      "id": "6",
+      "name": "Neha Kapoor",
+      "email": "neha.kapoor@example.com",
+      "phone": "+91-9567894321",
+      "city": "Delhi",
+      "country": "India",
+      "totalPurchases": 6,
+      "isActive": false
+    },
+    {
+      "id": "7",
+      "name": "Vikram Singh",
+      "email": "vikram.singh@example.com",
+      "phone": "+91-9871234567",
+      "city": "Jaipur",
+      "country": "India",
+      "totalPurchases": 9,
+      "isActive": true
+    },
+    {
+      "id": "8",
+      "name": "Ananya Rao",
+      "email": "ananya.rao@example.com",
+      "phone": "+91-9012345678",
+      "city": "Pune",
+      "country": "India",
+      "totalPurchases": 4,
+      "isActive": true
+    },
+    {
+      "id": "9",
+      "name": "Karan Malhotra",
+      "email": "karan.malhotra@example.com",
+      "phone": "+91-8899776655",
+      "city": "Chandigarh",
+      "country": "India",
+      "totalPurchases": 2,
+      "isActive": false
+    },
+    {
+      "id": "10",
+      "name": "Pooja Nair",
+      "email": "pooja.nair@example.com",
+      "phone": "+91-9765432109",
+      "city": "Kochi",
+      "country": "India",
+      "totalPurchases": 11,
+      "isActive": true
+    }
+  ]
+}

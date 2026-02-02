@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Insurance Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+<header class="bg-blue-600 text-white p-6">
+  <h1 class="text-2xl font-bold">Hartford Insurance</h1>
+  <p>Your trusted insurance partner</p>
+</header>
+
+<section class="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div class="bg-white p-4 rounded shadow">Customers: <span id="totalCustomers">0</span></div>
+  <div class="bg-white p-4 rounded shadow">Total Premium: ₹<span id="totalPremium">0</span></div>
+  <div class="bg-white p-4 rounded shadow">Policies Active</div>
+</section>
+
+<section class="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div class="bg-white p-4 rounded shadow">
+    <h3 class="font-bold">Health Insurance</h3>
+    <p>Base: ₹3000</p>
+  </div>
+  <div class="bg-white p-4 rounded shadow">
+    <h3 class="font-bold">Life Insurance</h3>
+    <p>Base: ₹5000</p>
+  </div>
+  <div class="bg-white p-4 rounded shadow">
+    <h3 class="font-bold">Vehicle Insurance</h3>
+    <p>Base: ₹2000</p>
+  </div>
+</section>
+
+<section class="p-6 bg-white m-6 rounded shadow">
+  <h2 class="text-xl font-bold mb-4">Customer Enquiry</h2>
+
+  <form id="customerForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <input type="text" id="custName" placeholder="Name" class="border p-2">
+    <input type="number" id="age" placeholder="Age" class="border p-2">
+    <input type="email" id="email" placeholder="Email" class="border p-2">
+    <select id="policyType" class="border p-2">
+      <option value="">Select Policy</option>
+      <option>Health</option>
+      <option>Life</option>
+      <option>Vehicle</option>
+    </select>
+    <input type="range" id="coverage" min="1" max="10" value="1">
+    <button class="bg-blue-600 text-white p-2 rounded md:col-span-2">Submit</button>
+  </form>
+</section>
+
+<section class="p-6">
+  <input type="text" id="search" placeholder="Search name" class="border p-2 mb-2">
+  <select id="filter" class="border p-2 mb-2">
+    <option value="">All Policies</option>
+    <option>Health</option>
+    <option>Life</option>
+    <option>Vehicle</option>
+  </select>
+
+  <table class="w-full bg-white rounded shadow">
+    <thead class="bg-gray-200">
+      <tr>
+        <th class="p-2">Name</th>
+        <th>Age</th>
+        <th>Policy</th>
+        <th>Coverage</th>
+        <th>Premium</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</section>
+
+<script>
+  let customers = [];
+
+  function calculatePremium(age, policy, coverage) {
+    let base = policy === "Health" ? 3000 : policy === "Life" ? 5000 : 2000;
+    let premium = base + (coverage - 1) * 500;
+    if (age > 45) premium *= 1.2;
+    return Math.round(premium);
+  }
+
+  document.getElementById("customerForm").addEventListener("submit", e => {
+    e.preventDefault();
+
+    const name = custName.value;
+    const age = +document.getElementById("age").value;
+    const policy = policyType.value;
+    const coverage = +document.getElementById("coverage").value;
+
+    if (!name || !age || !policy) return;
+
+    const premium = calculatePremium(age, policy, coverage);
+
+    customers.push({ name, age, policy, coverage, premium });
+    render();
+    e.target.reset();
+  });
+
+  function render() {
+    const tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+
+    let filtered = customers.filter(c =>
+      (!filter.value || c.policy === filter.value) &&
+      c.name.toLowerCase().includes(search.value.toLowerCase())
+    );
+
+    filtered.forEach(c => {
+      tbody.innerHTML += `
+        <tr>
+          <td class="p-2">${c.name}</td>
+          <td>${c.age}</td>
+          <td>${c.policy}</td>
+          <td>${c.coverage}L</td>
+          <td>₹${c.premium}</td>
+        </tr>`;
+    });
+
+    totalCustomers.textContent = customers.length;
+    totalPremium.textContent = customers.reduce((s,c)=>s+c.premium,0);
+  }
+
+  filter.onchange = render;
+  search.oninput = render;
+</script>
+
+</body>
+</html>

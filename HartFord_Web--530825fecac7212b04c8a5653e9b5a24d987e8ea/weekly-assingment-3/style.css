@@ -1,0 +1,136 @@
+body {
+    font-family: "Inter", "Segoe UI", sans-serif;
+    padding: 30px;
+    background: #f4f6fb;
+    color: #2c2c2c;
+}
+
+/* Table */
+table {
+    width: 100%;
+    margin-top: 16px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table td {
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+}
+
+thead th {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fff;
+    padding: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+tbody tr:hover {
+    background-color: #eef2ff;
+}
+
+/* Loader */
+#loader {
+    font-size: 18px;
+    color: #1e3c72;
+    font-weight: 500;
+}
+
+/* Inputs */
+input,
+select,
+.sortBtn,
+.createBtn {
+    padding: 10px 12px;
+    width: 220px;
+    margin-right: 12px;
+    border-radius: 8px;
+    border: 1px solid #dcdfe8;
+    background: white;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #2a5298;
+    box-shadow: 0 0 0 2px rgba(42, 82, 152, 0.15);
+}
+
+/* Buttons */
+button {
+    background: linear-gradient(135deg, #2a5298, #1e3c72);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 500;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(30, 60, 114, 0.25);
+}
+
+/* Text */
+p {
+    font-size: 17px;
+    color: #1e3c72;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Card */
+.card {
+    width: 55%;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+/* Row highlight */
+.lowBalance {
+    background: #ffe3e3 !important;
+    color: #9b1c1c;
+}
+
+/* Action buttons */
+.actionBtn {
+    border: none;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 12px;
+    cursor: pointer;
+    margin: 3px;
+    font-weight: 500;
+}
+
+/* Action colors */
+.deposit {
+    background: linear-gradient(135deg, #43cea2, #185a9d);
+}
+
+.withdraw {
+    background: linear-gradient(135deg, #f7971e, #ffd200);
+    color: #3a2a00;
+}
+
+.history {
+    background: linear-gradient(135deg, #36d1dc, #5b86e5);
+}
+
+.delete {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+}

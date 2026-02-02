@@ -1,0 +1,65 @@
+<div class="flex items-center justify-center min-h-screen bg-slate-50 p-6">
+    <div class="w-full max-w-md bg-white p-8 rounded-3xl shadow-2xl">
+  
+     
+      <!-- Inputs -->
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <input
+          type="number"
+          [ngModel]="calc.numA()"
+          (ngModelChange)="calc.numA.set($event)"
+          class="p-4 rounded-xl border text-xl font-bold"
+          placeholder="Value A"
+        />
+  
+        <input
+          type="number"
+          [ngModel]="calc.numB()"
+          (ngModelChange)="calc.numB.set($event)"
+          class="p-4 rounded-xl border text-xl font-bold"
+          placeholder="Value B"
+        />
+      </div>
+  
+      <!-- Operators -->
+      <div class="flex bg-slate-100 p-1 rounded-xl mb-6">
+        @for (op of calc.operators; track op) {
+          <button
+            type="button"
+            (click)="calc.operator.set(op)"
+            [class.bg-white]="calc.operator() === op"
+            [class.text-indigo-600]="calc.operator() === op"
+            class="flex-1 py-3 rounded-lg font-bold"
+          >
+            {{ op === '*' ? '×' : op === '/' ? '÷' : op }}
+          </button>
+        }
+      </div>
+  
+      <!-- Result -->
+      <div class="bg-indigo-600 text-white p-6 rounded-2xl text-center">
+        <span class="text-xs uppercase opacity-70">Result</span>
+  
+        @if (calc.total() === 'Error (Div by 0)') {
+          <div class="text-xl font-bold mt-2 text-red-200">
+            Cannot divide by zero
+          </div>
+        } @else {
+          <div class="text-4xl font-black mt-2">
+            {{ calc.total() }}
+          </div>
+        }
+      </div>
+  
+      <!-- Reset -->
+      <button
+        type="button"
+        (click)="calc.reset()"
+        class="mt-6 w-full text-xs font-bold uppercase text-slate-400 hover:text-red-500"
+      >
+        Reset
+      </button>
+  
+    </div>
+  </div>
+  

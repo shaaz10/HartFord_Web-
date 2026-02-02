@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+h1{
+    color: aliceblue;
+    text-align: center;
+}
+
+body {
+    background: #111;
+    font-family: Arial, sans-serif;
+}
+
+/* FLEX CONTAINER */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;   /* keep center */
+    gap: 20px;
+    padding: 20px;
+}
+
+/* CARD */
+.card {
+    flex: 1 1 260px;           /* base size */
+    min-width: 260px;          /* 🚨 CRITICAL LINE */
+    max-width: 320px;
+
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-15px);
+}
+
+/* IMAGE */
+.card-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+}
+
+/* VIDEO */
+.card-video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    background: black;
+    display: none;
+}
+
+/* HOVER SWITCH */
+.card:hover .card-img {
+    display: none;
+}
+
+.card:hover .card-video {
+    display: block;
+}
+
+.card p {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+/* 📱 SMALL DEVICES */
+@media (max-width: 480px) {
+    .card {
+        flex: 1 1 100%;
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+}

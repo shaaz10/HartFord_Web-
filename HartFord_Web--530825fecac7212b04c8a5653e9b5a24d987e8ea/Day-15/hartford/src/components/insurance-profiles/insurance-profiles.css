@@ -1,0 +1,129 @@
+/* Section wrapper */
+.quote-section {
+    text-align: center;
+    padding: 64px 20px;
+    background-color: #f7f2ec;
+  }
+  
+  /* Title */
+  .quote-section h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #111;
+  }
+  
+  /* Subtitle */
+  .subtitle {
+    font-size: 18px;
+    color: #444;
+    margin-bottom: 44px;
+  }
+  
+  /* Cards container */
+  .cards {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+  
+  /* Card base */
+  .card {
+    position: relative;
+    width: 170px;
+    height: 180px; /* fixed height for consistency */
+    padding: 40px 16px 20px; /* extra top space for badge */
+  
+    background-color: #fff;
+    border-radius: 10px;
+    border: 2px solid #e5e5e5;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  
+    cursor: pointer;
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.25s ease,
+      transform 0.25s ease;
+  }
+  
+  /* Icon */
+  .card img {
+    height: 42px;
+    margin-top: 10px; /* prevents overlap with badge */
+    opacity: 0.9;
+  }
+  
+  /* Card text */
+  .card span {
+    font-size: 15px;
+    font-weight: 600;
+    color: #222;
+  }
+  
+  /* Hover state */
+  .card:hover {
+    border-color: #8a1538;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+  }
+  
+  /* Active card */
+  .card.active {
+    border-color: #8a1538;
+  }
+  
+  /* Bundle badge */
+  .badge {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  
+    background-color: #f3c1d0;
+    color: #8a1538;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 14px;
+    font-weight: 600;
+  }
+  
+  /* Radio button */
+  .radio {
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    border: 2px solid #bbb;
+  }
+  
+  /* Checked radio */
+  .radio.checked {
+    background-color: #8a1538;
+    border-color: #8a1538;
+  }
+  
+  /* Responsive (mobile) */
+  @media (max-width: 768px) {
+    .cards {
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+  
+    .card {
+      width: 150px;
+      height: 170px;
+    }
+  
+    .quote-section h2 {
+      font-size: 28px;
+    }
+  
+    .subtitle {
+      font-size: 16px;
+    }
+  }
+  

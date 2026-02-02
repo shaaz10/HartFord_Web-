@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Insurance Enquiry & Feedback</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f6fb;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-container {
+      background: white;
+      max-width: 500px;
+      width: 100%;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #0d6efd;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    .rating {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background: #0d6efd;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #084298;
+    }
+
+    .error {
+      color: red;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .success {
+      color: green;
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <h2>Insurance Enquiry & Feedback</h2>
+  <p>Submit your policy-related queries and feedback</p>
+
+  <form id="enquiryForm">
+    <label>Full Name</label>
+    <input type="text" id="name">
+    <div class="error" id="nameError"></div>
+
+    <label>Email</label>
+    <input type="email" id="email">
+    <div class="error" id="emailError"></div>
+
+    <label>Mobile Number</label>
+    <input type="tel" id="mobile">
+    <div class="error" id="mobileError"></div>
+
+    <label>Request Type</label>
+    <select id="request">
+      <option value="">Select</option>
+      <option>Policy Enquiry</option>
+      <option>Claim Related</option>
+      <option>Feedback</option>
+    </select>
+    <div class="error" id="requestError"></div>
+
+    <label>Policy Type</label>
+    <select id="policy">
+      <option value="">Select</option>
+      <option>Health Insurance</option>
+      <option>Life Insurance</option>
+      <option>Vehicle Insurance</option>
+      <option>Home Insurance</option>
+    </select>
+    <div class="error" id="policyError"></div>
+
+    <label>Message</label>
+    <textarea id="message" rows="4"></textarea>
+    <div class="error" id="messageError"></div>
+
+    <label>Experience Rating</label>
+    <div class="rating">
+      <label><input type="radio" name="rating" value="1">1</label>
+      <label><input type="radio" name="rating" value="2">2</label>
+      <label><input type="radio" name="rating" value="3">3</label>
+      <label><input type="radio" name="rating" value="4">4</label>
+      <label><input type="radio" name="rating" value="5">5</label>
+    </div>
+    <div class="error" id="ratingError"></div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div class="success" id="successMsg"></div>
+</div>
+
+<script>
+  const form = document.getElementById("enquiryForm");
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    document.querySelectorAll(".error").forEach(el => el.textContent = "");
+    document.getElementById("successMsg").textContent = "";
+
+    let valid = true;
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const mobile = document.getElementById("mobile").value.trim();
+    const request = document.getElementById("request").value;
+    const policy = document.getElementById("policy").value;
+    const message = document.getElementById("message").value.trim();
+    const rating = document.querySelector("input[name='rating']:checked");
+
+    if (!name) {
+      document.getElementById("nameError").textContent = "Name is required";
+      valid = false;
+    }
+
+    if (!email) {
+      document.getElementById("emailError").textContent = "Email is required";
+      valid = false;
+    }
+
+    if (!/^\d{10}$/.test(mobile)) {
+      document.getElementById("mobileError").textContent = "Enter 10 digit mobile number";
+      valid = false;
+    }
+
+    if (!request) {
+      document.getElementById("requestError").textContent = "Select request type";
+      valid = false;
+    }
+
+    if (!policy) {
+      document.getElementById("policyError").textContent = "Select policy type";
+      valid = false;
+    }
+
+    if (message.length < 10) {
+      document.getElementById("messageError").textContent = "Minimum 10 characters required";
+      valid = false;
+    }
+
+    if (!rating) {
+      document.getElementById("ratingError").textContent = "Select a rating";
+      valid = false;
+    }
+
+    if (valid) {
+      document.getElementById("successMsg").textContent =
+        "Thank you! Your enquiry has been successfully submitted.";
+      form.reset();
+    }
+  });
+</script>
+
+</body>
+</html>

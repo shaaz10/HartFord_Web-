@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body style="background-color: rgb(251, 251, 251);">
+    <h1 style="color: rgb(64, 64, 159);text-align: center;">Online Banking Dashboard</h1>
+    <p>Welcome to your online banking dashboard. Here you can manage your accounts, view transactions, and perform various banking activities.</p>
+
+<div id="loader">Loading accounts...</div>
+<div class="card">
+    <input type="text" id="search" placeholder="Search by Name">
+    <select id="branchFilter">
+        <option value="">All Branches</option>
+  </select>
+  <button onclick="sortByBalance()" class="sortBtn">Sort by Balance</button>
+  </div>
+  <h2>Total Bank Balance: ₹<span id="totalBalance">0</span></h2>
+
+  <h3>Create New Account</h3>
+  <form action="" id="accountForm">
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="text" id="branch" placeholder="Branch" required>
+    <button type="submit" class="createBtn">Create Account</button>
+  </form>
+
+  <hr>
+
+  <table id="accountTable" border="1">
+    <thead>
+    <tr>
+      <th>Acc No</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Branch</th>
+      <th>Balance</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="accountsBody"></tbody>
+
+    </table>
+    <script src="script.js"></script>
+</body>
+</html>

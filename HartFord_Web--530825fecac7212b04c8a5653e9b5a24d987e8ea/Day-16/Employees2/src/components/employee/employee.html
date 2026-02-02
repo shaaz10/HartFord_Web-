@@ -1,0 +1,124 @@
+<div class="max-w-3xl mx-auto p-6">
+
+  <!-- TITLE -->
+  <h2 class="text-3xl font-bold mb-6 text-slate-800">
+    Employee Management
+  </h2>
+
+  <!-- FORM -->
+  <div class="bg-white p-4 rounded-xl shadow mb-8 space-y-4">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+      <!-- Name -->
+      <input
+        class="border p-2 rounded w-full"
+        placeholder="Name"
+        [(ngModel)]="employeeForm.name"
+      />
+
+      <!-- Department -->
+      <input
+        class="border p-2 rounded w-full"
+        placeholder="Department"
+        [(ngModel)]="employeeForm.department"
+      />
+
+      <!-- Gender -->
+      <select
+        class="border p-2 rounded w-full"
+        [(ngModel)]="employeeForm.gender"
+      >
+        <option>Male</option>
+        <option>Female</option>
+      </select>
+
+      <!-- Image Path -->
+      <input
+        class="border p-2 rounded w-full"
+        placeholder="Image path (assets/images/mark.jpg)"
+        [(ngModel)]="employeeForm.photoPath"
+      />
+
+    </div>
+
+    <!-- IMAGE PREVIEW -->
+    <div *ngIf="employeeForm.photoPath" class="flex items-center gap-4 mt-2">
+      <img
+        [src]="employeeForm.photoPath"
+        class="w-16 h-16 rounded-full object-cover border"
+      />
+      <span class="text-sm text-slate-600">
+        Image Preview
+      </span>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="flex gap-3 pt-2">
+
+      <button
+        class="bg-indigo-600 text-white px-5 py-2 rounded hover:bg-indigo-700"
+        (click)="save()"
+      >
+        {{ editMode ? 'Update Employee' : 'Add Employee' }}
+      </button>
+
+      <button
+        *ngIf="editMode"
+        class="px-5 py-2 border rounded hover:bg-slate-100"
+        (click)="reset()"
+      >
+        Cancel
+      </button>
+
+    </div>
+  </div>
+
+  <!-- LIST -->
+  <div
+    *ngFor="let emp of employees"
+    class="bg-white border rounded-xl p-4 mb-4 shadow-sm
+           flex items-center justify-between hover:shadow-md transition"
+  >
+
+    <!-- LEFT: IMAGE + INFO -->
+    <div class="flex items-center gap-4">
+
+      <img
+        [src]="emp.photoPath || 'assets/images/default.png'"
+        alt="{{ emp.name }}"
+        class="w-16 h-16 rounded-full object-cover border"
+      />
+
+      <div>
+        <h3 class="text-lg font-semibold text-slate-800">
+          {{ emp.name }}
+        </h3>
+
+        <p class="text-sm text-slate-600">
+          {{ emp.gender }} · {{ emp.department }}
+        </p>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: ACTIONS -->
+    <div class="flex gap-4">
+      <button
+        class="text-indigo-600 hover:underline"
+        (click)="edit(emp)"
+      >
+        Edit
+      </button>
+
+      <button
+        class="text-red-600 hover:underline"
+        (click)="delete(emp.id)"
+      >
+        Delete
+      </button>
+    </div>
+
+  </div>
+
+</div>

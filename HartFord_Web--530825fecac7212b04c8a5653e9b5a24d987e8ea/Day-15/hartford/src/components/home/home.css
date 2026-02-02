@@ -1,0 +1,43 @@
+.home {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    padding: 0 80px;
+    background-color: #f7f2ec;
+  }
+  
+  /* Left side (GIF) */
+  .home-left {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .home-left img {
+    max-width: 320px;
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Right side (text) */
+  .home-right {
+    flex: 1;
+    max-width: 520px;
+  }
+  
+  .home-right h1 {
+    font-size: 48px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: #111;
+    line-height: 1.2;
+  }
+  
+  .home-right p {
+    font-size: 20px;
+    color: #444;
+    line-height: 1.6;
+  }
+  
