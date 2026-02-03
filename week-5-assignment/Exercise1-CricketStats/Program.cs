@@ -4,6 +4,8 @@ class Program
 {
     static void Main()
     {
+        string s = "hello";
+        
         Console.WriteLine("=== Dhoni Cricket Statistics Pattern Prediction ===\n");
         
         // Dhoni's Test batting statistics pattern
