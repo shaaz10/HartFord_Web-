@@ -18,6 +18,8 @@ public class SalaryCalculator
         {
             pf = basicSalary * 0.12;
         }
+       
+        
         
         double grossSalary = basicSalary + hra + da;
         double netSalary = grossSalary - pf;
