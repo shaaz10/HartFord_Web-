@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 namespace Requirement2
 {
@@ -7,37 +7,47 @@ namespace Requirement2
     {
         static void Main(string[] args)
         {
+            ParkingLot parkingLot = new ParkingLot("Requirement2 Lot", new List<Vehicle>());
 
-            // This is 6th Question
-            Vehcile v1 = new Vehcile("TS09AB1234", "Honda", "Car", 1200);
-            Vehcile v2 = new Vehcile("TS09AC1234", "Suzuki", "Car", 1300);
-            v1._ticket=new Ticket(101);
-            v2._ticket=new Ticket(102);
-            Console.WriteLine();
-            // Print header in required format
-            Console.WriteLine("{0,-15} {1,-10} {2,-12} {3,-7} {4}", "Registration No", "Name", "Type", "Weight", "Ticket No");
-            // Print vehicle rows matching the PDF format: 1 digit after decimal for weight
-            Console.WriteLine("{0,-15} {1,-10} {2,-12} {3,-7:0.0} {4}", v1._registrationNo, v1._name, v1._type, v1._weight, v1._ticket?._ticketNo.ToString() ?? "");
-            Console.WriteLine("{0,-15} {1,-10} {2,-12} {3,-7:0.0} {4}", v2._registrationNo, v2._name, v2._type, v2._weight, v2._ticket?._ticketNo.ToString() ?? "");
-
-            Console.WriteLine();
-            Console.WriteLine(v1.Equals(v2));
-            if (v1.Equals(v2))
+            while (true)
             {
-                Console.WriteLine("Vehicle 1 is same as Vehicle 2");
-                Console.WriteLine();
+                Console.WriteLine("1. Add Vehicle\n2. Delete Vehicle\n3. Display Vehicles\n4. Exit");
+                Console.Write("Enter your choice: ");
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        Console.WriteLine("Enter vehicle details (registrationNo,name,type,weight,ticketNo,parkedTime,cost):");
+                        string input = Console.ReadLine();
+                        try
+                        {
+                            parkingLot.AddVehicleToParkingLot(Vehicle.CreateVehicle(input));
+                            Console.WriteLine("Vehicle successfully added");
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Error parsing vehicle");
+                        }
+                        break;
+                    case "2":
+                        Console.WriteLine("Enter Registration Number to delete:");
+                        string regNo = Console.ReadLine();
+                        if (parkingLot.RemoveVehicleFromParkingLot(regNo))
+                            Console.WriteLine("Vehicle successfully deleted");
+                        else
+                            Console.WriteLine("Vehicle not found in parkinglot");
+                        break;
+                    case "3":
+                        parkingLot.DisplayVehicles();
+                        break;
+                    case "4":
+                        return;
+                    default:
+                        Console.WriteLine("Invalid Choice");
+                        break;
+                }
             }
-            else
-            {
-                Console.WriteLine("Vehicle 1 and Vehicle 2 are different");
-                Console.WriteLine();
-            }
-            
-
-
-
-
-
         }
     }
 }

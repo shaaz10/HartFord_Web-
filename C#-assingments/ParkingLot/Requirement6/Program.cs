@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Requirement3
+namespace Requirement6
 {
     class Program
     {
         static void Main(string[] args)
         {
-            // Requirement 3 explicitly asks to create static method and print "Registration No. is valid".
-            // It could be a standalone test or integrated.
-            // I'm implementing it as an Integrated flow as it makes the most sense.
-            // If the user wants a standalone tester, I'll add Option 5: "Validate Reg No".
-
-            ParkingLot parkingLot = new ParkingLot("Requirement3 Lot", new List<Vehicle>());
+            ParkingLot parkingLot = new ParkingLot("Requirement6 Lot", new List<Vehicle>());
 
             while (true)
             {
-                Console.WriteLine("1. Add Vehicle\n2. Delete Vehicle\n3. Display Vehicles\n4. Exit");
+                Console.WriteLine("1. Add Vehicle\n2. Delete Vehicle\n3. Display Vehicles\n4. Type Wise Count\n5. Exit");
                 Console.Write("Enter your choice: ");
                 string choice = Console.ReadLine();
 
@@ -27,17 +22,8 @@ namespace Requirement3
                         string input = Console.ReadLine();
                         try
                         {
-                            Vehicle vehicle = Vehicle.CreateVehicle(input);
-                            if (Vehicle.ValidateRegistrationNo(vehicle.RegistrationNo))
-                            {
-                                Console.WriteLine("Registration No. is valid");
-                                parkingLot.AddVehicleToParkingLot(vehicle);
-                                Console.WriteLine("Vehicle successfully added");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Registration No. is invalid");
-                            }
+                            parkingLot.AddVehicleToParkingLot(Vehicle.CreateVehicle(input));
+                            Console.WriteLine("Vehicle successfully added");
                         }
                         catch
                         {
@@ -56,6 +42,14 @@ namespace Requirement3
                         parkingLot.DisplayVehicles();
                         break;
                     case "4":
+                        var counts = Vehicle.TypeWiseCount(parkingLot.VehicleList);
+                        Console.WriteLine("{0,-20} {1}", "Type", "No. of Vehicles");
+                        foreach (var kvp in counts)
+                        {
+                            Console.WriteLine("{0,-20} {1}", kvp.Key, kvp.Value);
+                        }
+                        break;
+                    case "5":
                         return;
                     default:
                         Console.WriteLine("Invalid Choice");

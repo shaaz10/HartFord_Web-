@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Requirement3
+namespace Requirement5
 {
     class Program
     {
         static void Main(string[] args)
         {
-            // Requirement 3 explicitly asks to create static method and print "Registration No. is valid".
-            // It could be a standalone test or integrated.
-            // I'm implementing it as an Integrated flow as it makes the most sense.
-            // If the user wants a standalone tester, I'll add Option 5: "Validate Reg No".
-
-            ParkingLot parkingLot = new ParkingLot("Requirement3 Lot", new List<Vehicle>());
+            ParkingLot parkingLot = new ParkingLot("Requirement5 Lot", new List<Vehicle>());
 
             while (true)
             {
-                Console.WriteLine("1. Add Vehicle\n2. Delete Vehicle\n3. Display Vehicles\n4. Exit");
+                Console.WriteLine("1. Add Vehicle\n2. Delete Vehicle\n3. Display Vehicles\n4. Sort Vehicles\n5. Exit");
                 Console.Write("Enter your choice: ");
                 string choice = Console.ReadLine();
 
@@ -27,17 +22,8 @@ namespace Requirement3
                         string input = Console.ReadLine();
                         try
                         {
-                            Vehicle vehicle = Vehicle.CreateVehicle(input);
-                            if (Vehicle.ValidateRegistrationNo(vehicle.RegistrationNo))
-                            {
-                                Console.WriteLine("Registration No. is valid");
-                                parkingLot.AddVehicleToParkingLot(vehicle);
-                                Console.WriteLine("Vehicle successfully added");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Registration No. is invalid");
-                            }
+                            parkingLot.AddVehicleToParkingLot(Vehicle.CreateVehicle(input));
+                            Console.WriteLine("Vehicle successfully added");
                         }
                         catch
                         {
@@ -56,6 +42,27 @@ namespace Requirement3
                         parkingLot.DisplayVehicles();
                         break;
                     case "4":
+                        Console.WriteLine("1. Sort by weight\n2. Sort by parked time");
+                        Console.Write("Enter your choice: ");
+                        string sortChoice = Console.ReadLine();
+                        if (sortChoice == "1")
+                        {
+                            parkingLot.VehicleList.Sort(); // Uses IComparable implementation (Weight)
+                            Console.WriteLine("Vehicles sorted by weight");
+                            parkingLot.DisplayVehicles();
+                        }
+                        else if (sortChoice == "2")
+                        {
+                            parkingLot.VehicleList.Sort(new ParkedTimeComparer());
+                            Console.WriteLine("Vehicles sorted by parked time");
+                            parkingLot.DisplayVehicles();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid Choice");
+                        }
+                        break;
+                    case "5":
                         return;
                     default:
                         Console.WriteLine("Invalid Choice");

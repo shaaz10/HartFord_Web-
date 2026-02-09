@@ -1,6 +1,6 @@
 using System;
 
-namespace Requirement2
+namespace Requirement6
 {
     public class Ticket
     {

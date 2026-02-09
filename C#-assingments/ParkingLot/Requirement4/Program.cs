@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
-namespace Requirement3
+namespace Requirement4
 {
     class Program
     {
         static void Main(string[] args)
         {
-            // Requirement 3 explicitly asks to create static method and print "Registration No. is valid".
-            // It could be a standalone test or integrated.
-            // I'm implementing it as an Integrated flow as it makes the most sense.
-            // If the user wants a standalone tester, I'll add Option 5: "Validate Reg No".
-
-            ParkingLot parkingLot = new ParkingLot("Requirement3 Lot", new List<Vehicle>());
+            ParkingLot parkingLot = new ParkingLot("Requirement4 Lot", new List<Vehicle>());
+            VehicleBO vehicleBO = new VehicleBO();
 
             while (true)
             {
-                Console.WriteLine("1. Add Vehicle\n2. Delete Vehicle\n3. Display Vehicles\n4. Exit");
+                Console.WriteLine("1. Add Vehicle\n2. Delete Vehicle\n3. Display Vehicles\n4. Search Vehicles\n5. Exit");
                 Console.Write("Enter your choice: ");
                 string choice = Console.ReadLine();
 
@@ -56,6 +53,39 @@ namespace Requirement3
                         parkingLot.DisplayVehicles();
                         break;
                     case "4":
+                        Console.WriteLine("1. By type\n2. By parked time");
+                        Console.Write("Enter your choice: ");
+                        string searchChoice = Console.ReadLine();
+                        List<Vehicle> results = new List<Vehicle>();
+                        if (searchChoice == "1")
+                        {
+                            Console.WriteLine("Enter Type:");
+                            string type = Console.ReadLine();
+                            results = vehicleBO.FindVehicle(parkingLot.VehicleList, type);
+                        }
+                        else if (searchChoice == "2")
+                        {
+                            Console.WriteLine("Enter Parked Time (dd-MM-yyyy HH:mm:ss):");
+                            if (DateTime.TryParseExact(Console.ReadLine(), "dd-MM-yyyy HH:mm:ss", null, DateTimeStyles.None, out DateTime dt))
+                                results = vehicleBO.FindVehicle(parkingLot.VehicleList, dt);
+                            else
+                            {
+                                Console.WriteLine("Invalid date format");
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid Choice");
+                            break;
+                        }
+
+                        if (results.Count > 0)
+                            parkingLot.DisplayVehicles(results);
+                        else
+                            Console.WriteLine("No such vehicle is present");
+                        break;
+                    case "5":
                         return;
                     default:
                         Console.WriteLine("Invalid Choice");

@@ -6,37 +6,26 @@ namespace Requirement1
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Enter vehicle 1 details:");
+            string input1 = Console.ReadLine();
+            Console.WriteLine("Enter vehicle 2 details:");
+            string input2 = Console.ReadLine();
 
-            // This is 6th Question
-            Vehcile v1 = new Vehcile("TS09AB1234", "Honda", "Car", 1200);
-            Vehcile v2 = new Vehcile("TS09AC1234", "Suzuki", "Car", 1300);
-            v1._ticket=new Ticket(101);
-            v2._ticket=new Ticket(102);
-            System.Console.WriteLine();
-            System.Console.WriteLine("Vehicle 1");
-            System.Console.WriteLine();
-            System.Console.WriteLine(v1);
-            System.Console.WriteLine();
-            System.Console.WriteLine("Vehicle 2");
-            System.Console.WriteLine();
-            System.Console.WriteLine(v2);
+            Vehicle v1 = Vehicle.CreateVehicle(input1);
+            Vehicle v2 = Vehicle.CreateVehicle(input2);
 
-            System.Console.WriteLine();
-            Console.WriteLine(v1.Equals(v2));
-            if(v1.Equals(v2)){
-                System.Console.WriteLine("Vehicle 1 is same as Vehicle 2");
-                System.Console.WriteLine();
-            }
-            else{
-                System.Console.WriteLine("Vehicle 1 and Vehicle 2 are different");
-                System.Console.WriteLine();
-            }
-            
+            Console.WriteLine("Vehicle 1:");
+            Console.WriteLine(v1.ToString());
+            Console.WriteLine();
 
+            Console.WriteLine("Vehicle 2:");
+            Console.WriteLine(v2.ToString());
+            Console.WriteLine();
 
-
-
-
+            if (v1.Equals(v2))
+                Console.WriteLine("Vehicle 1 is same as Vehicle 2");
+            else
+                Console.WriteLine("Vehicle 1 and Vehicle 2 are different");
         }
     }
 }

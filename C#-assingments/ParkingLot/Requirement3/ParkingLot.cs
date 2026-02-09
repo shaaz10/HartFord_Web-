@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Requirement2
+namespace Requirement3
 {
     public class ParkingLot
     {

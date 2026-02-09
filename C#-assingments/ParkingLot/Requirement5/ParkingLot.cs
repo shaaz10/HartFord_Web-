@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Requirement2
+namespace Requirement5
 {
     public class ParkingLot
     {
@@ -14,6 +14,8 @@ namespace Requirement2
             _name = name;
             _vehicleList = vehicleList;
         }
+
+        public List<Vehicle> VehicleList { get { return _vehicleList; } }
 
         public void AddVehicleToParkingLot(Vehicle vehicle)
         {

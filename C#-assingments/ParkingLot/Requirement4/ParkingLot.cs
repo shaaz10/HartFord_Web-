@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Requirement2
+namespace Requirement4
 {
     public class ParkingLot
     {
@@ -14,6 +14,8 @@ namespace Requirement2
             _name = name;
             _vehicleList = vehicleList;
         }
+
+        public List<Vehicle> VehicleList { get { return _vehicleList; } }
 
         public void AddVehicleToParkingLot(Vehicle vehicle)
         {
@@ -31,16 +33,17 @@ namespace Requirement2
             return false;
         }
 
-        public void DisplayVehicles()
+        public void DisplayVehicles(List<Vehicle> list = null)
         {
-            if (_vehicleList.Count == 0)
+            if (list == null) list = _vehicleList;
+            if (list.Count == 0)
             {
                 Console.WriteLine("No vehicles to show");
                 return;
             }
 
             Console.WriteLine("{0,-20} {1,-15} {2,-15} {3,-10} {4,-15}", "Registration No", "Name", "Type", "Weight", "Ticket No");
-            foreach (var v in _vehicleList)
+            foreach (var v in list)
             {
                 Console.WriteLine("{0,-20} {1,-15} {2,-15} {3,-10:F1} {4,-15}", 
                     v.RegistrationNo, v.Name, v.Type, v.Weight, v.Ticket.TicketNo);

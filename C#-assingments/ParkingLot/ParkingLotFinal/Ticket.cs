@@ -1,6 +1,6 @@
 using System;
 
-namespace Requirement1
+namespace ParkingLotFinal
 {
     public class Ticket
     {
