@@ -58,6 +58,7 @@ namespace Requirement1
             // and also the guidance for operator== at
             //   http://go.microsoft.com/fwlink/?LinkId=85238
             //
+            
 
             if (obj == null || GetType() != obj.GetType())
             {
