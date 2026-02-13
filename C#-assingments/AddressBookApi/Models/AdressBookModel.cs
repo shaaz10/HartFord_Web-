@@ -10,5 +10,6 @@ namespace AddressBookApi.Models
         public long? PostalCode { get; set;}
         public string Name { get; set;}
 
+        
     }
 }

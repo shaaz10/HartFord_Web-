@@ -9,9 +9,9 @@ namespace AddressBookApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AdressBookController : ControllerBase
+    public class AddressBookController : ControllerBase
     {
-        // Object intitializer of adressbook
+        // Object initializer of address book
         private static List<AddressBook> _books = new List<AddressBook>
         {
            new AddressBook{ Address="Bachupally",City="Hyderabad",Region=2,PostalCode=2000,Name="shaaz"},
@@ -22,7 +22,7 @@ namespace AddressBookApi.Controllers
         {
             return Ok(_books);
         }
-        [HttpGet("{name}")]
+        [HttpGet("name/{name}")]
         public IActionResult GetByName(string name)
         {
             var book=_books.FirstOrDefault(b => b.Name == name);
@@ -32,13 +32,13 @@ namespace AddressBookApi.Controllers
             }
             return Ok(book);
         }
-        [HttpGet("{address}")]
+        [HttpGet("address/{address}")]
         public IActionResult GetByAddress(string address)
         {
             var book=_books.FirstOrDefault(b => b.Address == address);
             if (book == null)
             {
-                return NotFound("adress not Found");
+                return NotFound("address not Found");
             }
             return Ok(book);
         }
@@ -46,9 +46,8 @@ namespace AddressBookApi.Controllers
         [HttpPost]
         public IActionResult Create(AddressBook book)
         {
-                // book.Address=_books[0].Address;
-                _books.Add(book);
-                return CreatedAtAction(nameof(GetByAddress),new {Address=book.Address,book});
+            _books.Add(book);
+            return CreatedAtAction(nameof(GetByAddress), new { address = book.Address }, book);
         }
 
         [HttpPut("{address}")]
@@ -57,7 +56,7 @@ namespace AddressBookApi.Controllers
             var book=_books.FirstOrDefault(b => b.Address == address);
             if(book == null)
             {
-                return NotFound("adress not found");
+                return NotFound("address not found");
 
             }
             book.Address=Updatedbook.Address;

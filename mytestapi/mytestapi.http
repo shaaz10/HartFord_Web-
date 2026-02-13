@@ -1,6 +1,0 @@
-@mytestapi_HostAddress = http://localhost:5182
-
-GET {{mytestapi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
