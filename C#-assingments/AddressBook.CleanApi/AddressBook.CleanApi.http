@@ -1,0 +1,6 @@
+@AddressBook.CleanApi_HostAddress = http://localhost:5296
+
+GET {{AddressBook.CleanApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
