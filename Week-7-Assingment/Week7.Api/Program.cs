@@ -6,7 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.ReferenceHandler =
+            System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -27,6 +31,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Seed Data
+// Seed Data
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -36,14 +41,14 @@ using (var scope = app.Services.CreateScope())
         var customer1 = new Customer
         {
             Id = 1,
-            FullName = "John Doe",
+            Name = "John Doe",
             Email = "john@example.com"
         };
 
         var customer2 = new Customer
         {
             Id = 2,
-            FullName = "Jane Smith",
+            Name = "Jane Smith",
             Email = "jane@example.com"
         };
 
