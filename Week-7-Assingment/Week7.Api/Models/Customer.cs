@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Week7.Api.Models
+namespace CustomerOrderAPIDemo.Models
 {
     public class Customer
     {
@@ -12,7 +12,9 @@ namespace Week7.Api.Models
         [EmailAddress]
         public string Email { get; set; }
 
-        // One Customer → Many Orders
-        public ICollection<Order>? Orders { get; set; }
+        public string? Phone { get; set; }
+
+        // Navigation Property (1 Customer → Many Orders)
+        public List<Order>? Orders { get; set; }
     }
 }

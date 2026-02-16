@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Week7.Api.Data;
-using Week7.Api.Models;
+using CustomerOrderAPIDemo.Models;
+using CustomerOrderAPIDemo.Data;
 
-namespace Week7.Api.Controllers
+namespace CustomerOrderAPIDemo.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class CustomersController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -16,22 +16,63 @@ namespace Week7.Api.Controllers
             _context = context;
         }
 
+        // GET: api/Customers
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
-            var customers = await _context.Customers
-                .Include(c => c.Orders)
-                .ToListAsync();
-
-            return Ok(customers);
+            return await _context.Customers.ToListAsync();
         }
 
+        // GET: api/Customers/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        {
+            var customer = await _context.Customers
+                                         .Include(c => c.Orders)
+                                         .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (customer == null)
+                return NotFound();
+
+            return customer;
+        }
+
+        // POST
         [HttpPost]
-        public async Task<IActionResult> Create(Customer customer)
+        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
-            return Ok(customer);
+
+            return CreatedAtAction(nameof(GetCustomer), new { id = customer.Id }, customer);
+        }
+
+        // PUT
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCustomer(int id, Customer customer)
+        {
+            if (id != customer.Id)
+                return BadRequest();
+
+            _context.Entry(customer).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // DELETE
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCustomer(int id)
+        {
+            var customer = await _context.Customers.FindAsync(id);
+
+            if (customer == null)
+                return NotFound();
+
+            _context.Customers.Remove(customer);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

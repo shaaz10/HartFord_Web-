@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Week7.Api.Models
+
+namespace CustomerOrderAPIDemo.Models
 {
     public class Order
     {
@@ -13,10 +14,11 @@ namespace Week7.Api.Models
         [Range(1, 1000000)]
         public decimal TotalAmount { get; set; }
 
-   
+        // Foreign Key
         [ForeignKey("Customer")]
         public int CustomerId { get; set; }
 
+        // Navigation Property
         public Customer? Customer { get; set; }
     }
 }

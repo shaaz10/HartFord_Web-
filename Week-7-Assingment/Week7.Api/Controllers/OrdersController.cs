@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Week7.Api.Data;
-using Week7.Api.Models;
+using CustomerOrderAPIDemo.Models;
+using CustomerOrderAPIDemo.Data;
 
-namespace Week7.Api.Controllers
+namespace CustomerOrderAPIDemo.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class OrdersController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -16,22 +16,87 @@ namespace Week7.Api.Controllers
             _context = context;
         }
 
+        // GET: api/Orders
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
-            var orders = await _context.Orders
-                .Include(o => o.Customer)
-                .ToListAsync();
-
-            return Ok(orders);
+            return await _context.Orders
+                                 .Include(o => o.Customer)
+                                 .ToListAsync();
         }
 
+        // GET: api/Orders/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Order>> GetOrder(int id)
+        {
+            var order = await _context.Orders
+                                      .Include(o => o.Customer)
+                                      .FirstOrDefaultAsync(o => o.Id == id);
+
+            if (order == null)
+                return NotFound();
+
+            return order;
+        }
+
+        // POST
         [HttpPost]
-        public async Task<IActionResult> Create(Order order)
+        public async Task<ActionResult<Order>> PostOrder(Order order)
         {
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
-            return Ok(order);
+
+            return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
+        }
+
+        // PUT
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutOrder(int id, Order order)
+        {
+            if (id != order.Id)
+                return BadRequest();
+
+            _context.Entry(order).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // DELETE
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrder(int id)
+        {
+            var order = await _context.Orders.FindAsync(id);
+
+            if (order == null)
+                return NotFound();
+
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // SPECIAL: Group Orders By Customer
+        [HttpGet("grouped-by-customer")]
+        public async Task<IActionResult> GetGroupedByCustomer()
+        {
+            var result = await _context.Orders
+                .Include(o => o.Customer)
+                .GroupBy(o => o.Customer.Name)
+                .Select(g => new
+                {
+                    Customer = g.Key,
+                    Orders = g.Select(o => new
+                    {
+                        o.Id,
+                        o.OrderDate,
+                        o.TotalAmount
+                    })
+                })
+                .ToListAsync();
+
+            return Ok(result);
         }
     }
 }
