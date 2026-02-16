@@ -13,7 +13,7 @@ namespace Week7.Api.Models
         [Range(1, 1000000)]
         public decimal TotalAmount { get; set; }
 
-        // 👇 FOREIGN KEY like you wanted
+   
         [ForeignKey("Customer")]
         public int CustomerId { get; set; }
 
