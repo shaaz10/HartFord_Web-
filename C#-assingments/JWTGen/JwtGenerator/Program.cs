@@ -16,7 +16,7 @@ namespace JwtGenerator
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.Configure<JWTSettings>(
-    builder.Configuration.GetSection("JWTSettings"));
+            builder.Configuration.GetSection("JWTSettings"));
 
 
             var app = builder.Build();
@@ -24,7 +24,7 @@ namespace JwtGenerator
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
+                app.UseSwagger(); 
                 app.UseSwaggerUI();
             }
 
