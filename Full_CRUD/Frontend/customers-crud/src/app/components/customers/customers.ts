@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-customers',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './customers.html'
 })
 export class CustomersComponent implements OnInit {
@@ -15,7 +15,7 @@ export class CustomersComponent implements OnInit {
   isLoading = true;
   error: string | null = null;
 
-  // form model
+  // Create form model
   newCustomer = {
     name: '',
     email: '',
@@ -24,6 +24,7 @@ export class CustomersComponent implements OnInit {
     isActive: true
   };
 
+  // Editing model
   editingCustomer: any = null;
 
   constructor(
@@ -35,6 +36,9 @@ export class CustomersComponent implements OnInit {
     this.loadCustomers();
   }
 
+  // =========================
+  // LOAD CUSTOMERS
+  // =========================
   loadCustomers(): void {
     this.customerService.getCustomers().subscribe({
       next: (res: any) => {
@@ -42,7 +46,7 @@ export class CustomersComponent implements OnInit {
         this.isLoading = false;
         this.cdr.detectChanges();
       },
-       error: () => {
+      error: () => {
         this.error = 'Failed to load customers';
         this.isLoading = false;
         this.cdr.detectChanges();
@@ -50,7 +54,9 @@ export class CustomersComponent implements OnInit {
     });
   }
 
+  // =========================
   // CREATE
+  // =========================
   addCustomer(): void {
     this.customerService.createCustomer(this.newCustomer).subscribe({
       next: () => {
@@ -66,13 +72,19 @@ export class CustomersComponent implements OnInit {
     });
   }
 
-  // EDIT (fill form)
+  // =========================
+  // EDIT (populate form)
+  // =========================
   editCustomer(customer: any): void {
     this.editingCustomer = { ...customer };
   }
 
+  // =========================
   // UPDATE
+  // =========================
   updateCustomer(): void {
+    if (!this.editingCustomer) return;
+
     this.customerService
       .updateCustomer(this.editingCustomer.id, this.editingCustomer)
       .subscribe({
@@ -83,8 +95,10 @@ export class CustomersComponent implements OnInit {
       });
   }
 
+  // =========================
   // DELETE
-  deleteCustomer(id: number): void {
+  // =========================
+  deleteCustomer(id: string): void {
     this.customerService.deleteCustomer(id).subscribe({
       next: () => {
         this.loadCustomers();

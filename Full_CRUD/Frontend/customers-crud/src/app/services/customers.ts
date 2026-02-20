@@ -7,23 +7,27 @@ import { Observable } from 'rxjs';
 })
 export class CustomerService {
 
-  private apiUrl = 'http://localhost:3000/customers';
+  private apiUrl = 'http://localhost:5115/api/Customer';
 
   constructor(private http: HttpClient) {}
 
+  // GET ALL
   getCustomers(): Observable<any> {
     return this.http.get(this.apiUrl);
   }
 
+  // CREATE
   createCustomer(customer: any): Observable<any> {
     return this.http.post(this.apiUrl, customer);
   }
 
-  updateCustomer(id: number, customer: any): Observable<any> {
+  // UPDATE (id should be string)
+  updateCustomer(id: string, customer: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, customer);
   }
 
-  deleteCustomer(id: number): Observable<any> {
+  // DELETE (id should be string)
+  deleteCustomer(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }
