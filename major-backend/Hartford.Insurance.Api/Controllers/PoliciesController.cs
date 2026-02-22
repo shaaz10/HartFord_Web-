@@ -1,68 +1,57 @@
 using Hartford.Insurance.Api.Models;
 using Hartford.Insurance.Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hartford.Insurance.Api.Controllers
 {
     [ApiController]
     [Route("api/policies")]
+    [Authorize]
     public class PoliciesController : ControllerBase
     {
         private readonly PolicyService _service;
-
-        public PoliciesController(PolicyService service)
-        {
-            _service = service;
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Policy>> GetById(string id)
-        {
-            var result = await _service.GetByIdAsync(id);
-            if (result == null) return NotFound();
-            return result;
-        }
+        public PoliciesController(PolicyService service) => _service = service;
 
         [HttpGet]
-        public async Task<ActionResult<List<Policy>>> GetAll([FromQuery] string? customerId, [FromQuery] string? agentId)
+        public async Task<ActionResult<List<Policy>>> GetAll(
+            [FromQuery] int? customerId,
+            [FromQuery] int? agentId)
         {
-            if (!string.IsNullOrEmpty(customerId))
-            {
-                return await _service.GetByCustomerIdAsync(customerId);
-            }
-            if (!string.IsNullOrEmpty(agentId))
-            {
-                return await _service.GetByAgentIdAsync(agentId);
-            }
+            if (customerId.HasValue) return await _service.GetByCustomerIdAsync(customerId.Value);
+            if (agentId.HasValue)   return await _service.GetByAgentIdAsync(agentId.Value);
             return await _service.GetAllAsync();
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Policy>> GetById(int id)
+        {
+            var result = await _service.GetByIdAsync(id);
+            return result == null ? NotFound() : result;
+        }
+
         [HttpPost]
+        [Authorize(Policy = "AgentOrAdmin")]
         public async Task<IActionResult> Create(Policy policy)
         {
-            await _service.CreateAsync(policy);
-            return CreatedAtAction(nameof(GetById), new { id = policy.Id }, policy);
+            var created = await _service.CreateAsync(policy);
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> Update(string id, Policy policy)
+        [HttpPatch("{id:int}")]
+        [Authorize(Policy = "AgentOrAdmin")]
+        public async Task<IActionResult> Update(int id, Policy policy)
         {
-            var existing = await _service.GetByIdAsync(id);
-            if (existing == null) return NotFound();
-
-            policy.Id = id;
-            await _service.UpdateAsync(id, policy);
-            return NoContent();
+            var result = await _service.UpdateAsync(id, policy);
+            return result == null ? NotFound() : NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        [HttpDelete("{id:int}")]
+        [Authorize(Policy = "AdminOnly")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var existing = await _service.GetByIdAsync(id);
-            if (existing == null) return NotFound();
-
-            await _service.DeleteAsync(id);
-            return NoContent();
+            var deleted = await _service.DeleteAsync(id);
+            return deleted ? NoContent() : NotFound();
         }
     }
 }

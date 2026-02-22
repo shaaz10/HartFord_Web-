@@ -1,59 +1,55 @@
+using Hartford.Insurance.Api.Data;
 using Hartford.Insurance.Api.Models;
-using MongoDB.Driver;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hartford.Insurance.Api.Services
 {
     public class BaseService<T> where T : BaseEntity
     {
-        protected readonly IMongoCollection<T> _collection;
+        protected readonly AppDbContext _db;
+        protected readonly DbSet<T> _set;
 
-        public BaseService(IMongoCollection<T> collection)
+        public BaseService(AppDbContext db)
         {
-            _collection = collection;
+            _db = db;
+            _set = db.Set<T>();
         }
 
         public virtual async Task<List<T>> GetAllAsync()
-        {
-            return await _collection.Find(_ => true).ToListAsync();
-        }
+            => await _set.ToListAsync();
 
-        public virtual async Task<T?> GetByIdAsync(string id)
-        {
-            return await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
-        }
+        public virtual async Task<T?> GetByIdAsync(int id)
+            => await _set.FindAsync(id);
 
-        public virtual async Task CreateAsync(T entity)
+        public virtual async Task<T> CreateAsync(T entity)
         {
             entity.CreatedAt = DateTime.UtcNow;
             entity.UpdatedAt = DateTime.UtcNow;
-            await _collection.InsertOneAsync(entity);
+            _set.Add(entity);
+            await _db.SaveChangesAsync();
+            return entity;
         }
 
-        public virtual async Task UpdateAsync(string id, T entity)
+        public virtual async Task<T?> UpdateAsync(int id, T entity)
         {
-            entity.Id = id; // Ensure ID matches
+            var existing = await _set.FindAsync(id);
+            if (existing == null) return null;
+
+            entity.Id = id;
+            entity.CreatedAt = existing.CreatedAt;
             entity.UpdatedAt = DateTime.UtcNow;
-            // Retain original CreatedAt if possible, but simplest is to not overwrite or fetch first. 
-            // Better to use ReplaceOne. If CreatedAt is lost, that's bad.
-            // Best practice: Fetch existing, update fields, save. Or just trust client sends it back?
-            // "Replica of existing endpoints" -> typical JSON server PUT replaces content. PATCH updates fields.
-            // User requested PATCH /api/users/{id}, but also ReplaceOneAsync for updates.
-            // "Use ReplaceOneAsync for updates". I will implement standard Replace.
-            
-            // To preserve CreatedAt without fetching, we might need a specific update definition, but user asked for ReplaceOneAsync.
-            // I'll assume the entity passed in has the correct CreatedAt or I'll fetch it.
-            // Fetching is safer.
-            var existing = await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
-            if (existing != null)
-            {
-                entity.CreatedAt = existing.CreatedAt;
-                await _collection.ReplaceOneAsync(x => x.Id == id, entity);
-            }
+            _db.Entry(existing).CurrentValues.SetValues(entity);
+            await _db.SaveChangesAsync();
+            return existing;
         }
 
-        public virtual async Task DeleteAsync(string id)
+        public virtual async Task<bool> DeleteAsync(int id)
         {
-            await _collection.DeleteOneAsync(x => x.Id == id);
+            var entity = await _set.FindAsync(id);
+            if (entity == null) return false;
+            _set.Remove(entity);
+            await _db.SaveChangesAsync();
+            return true;
         }
     }
 }

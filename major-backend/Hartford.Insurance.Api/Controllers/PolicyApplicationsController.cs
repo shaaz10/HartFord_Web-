@@ -9,46 +9,37 @@ namespace Hartford.Insurance.Api.Controllers
     public class PolicyApplicationsController : ControllerBase
     {
         private readonly PolicyApplicationService _service;
-
-        public PolicyApplicationsController(PolicyApplicationService service)
-        {
-            _service = service;
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PolicyApplication>> GetById(string id)
-        {
-            var result = await _service.GetByIdAsync(id);
-            if (result == null) return NotFound();
-            return result;
-        }
+        public PolicyApplicationsController(PolicyApplicationService service) => _service = service;
 
         [HttpGet]
-        public async Task<ActionResult<List<PolicyApplication>>> GetAll([FromQuery] string? agentId)
+        public async Task<ActionResult<List<PolicyApplication>>> GetAll(
+            [FromQuery] int? agentId,
+            [FromQuery] int? customerId)
         {
-            if (!string.IsNullOrEmpty(agentId))
-            {
-                return await _service.GetByAgentIdAsync(agentId);
-            }
+            if (agentId.HasValue)    return await _service.GetByAgentIdAsync(agentId.Value);
+            if (customerId.HasValue) return await _service.GetByCustomerIdAsync(customerId.Value);
             return await _service.GetAllAsync();
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<PolicyApplication>> GetById(int id)
+        {
+            var result = await _service.GetByIdAsync(id);
+            return result == null ? NotFound() : result;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(PolicyApplication app)
         {
-            await _service.CreateAsync(app);
-            return CreatedAtAction(nameof(GetById), new { id = app.Id }, app);
+            var created = await _service.CreateAsync(app);
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> Update(string id, PolicyApplication app)
+        [HttpPatch("{id:int}")]
+        public async Task<IActionResult> Update(int id, PolicyApplication app)
         {
-            var existing = await _service.GetByIdAsync(id);
-            if (existing == null) return NotFound();
-
-            app.Id = id;
-            await _service.UpdateAsync(id, app);
-            return NoContent();
+            var result = await _service.UpdateAsync(id, app);
+            return result == null ? NotFound() : NoContent();
         }
     }
 }

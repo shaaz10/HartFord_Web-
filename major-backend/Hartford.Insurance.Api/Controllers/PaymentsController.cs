@@ -9,21 +9,27 @@ namespace Hartford.Insurance.Api.Controllers
     public class PaymentsController : ControllerBase
     {
         private readonly PaymentService _service;
+        public PaymentsController(PaymentService service) => _service = service;
 
-        public PaymentsController(PaymentService service)
+        [HttpGet]
+        public async Task<ActionResult<List<Payment>>> GetAll([FromQuery] int? policyId)
         {
-            _service = service;
+            if (policyId.HasValue) return await _service.GetByPolicyIdAsync(policyId.Value);
+            return await _service.GetAllAsync();
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Payment>> GetById(int id)
+        {
+            var result = await _service.GetByIdAsync(id);
+            return result == null ? NotFound() : result;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(Payment payment)
         {
-            await _service.CreateAsync(payment);
-            // Typically redirect to GET but GET is not requested. So just 201 Created with body or empty location?
-            // CreatedAtAction requires an action name.
-            // Since there is no GetById, just return Created? Or Ok.
-            // 201 Created is better. Location header might be just "api/payments/{id}" even if not impl.
-            return Created($"api/payments/{payment.Id}", payment);
+            var created = await _service.CreateAsync(payment);
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
     }
 }

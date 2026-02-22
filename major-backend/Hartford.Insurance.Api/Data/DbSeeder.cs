@@ -1,62 +1,155 @@
 using Hartford.Insurance.Api.Models;
-using MongoDB.Driver;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hartford.Insurance.Api.Data
 {
     public class DbSeeder
     {
-        private readonly MongoDbContext _context;
+        private readonly AppDbContext _context;
 
-        public DbSeeder(MongoDbContext context)
+        public DbSeeder(AppDbContext context)
         {
             _context = context;
         }
 
         public async Task SeedAsync()
         {
-            // Check if users exist, if so, assume database is seeded
-            if (await _context.Users.CountDocumentsAsync(_ => true) > 0) return;
+            // Apply any pending migrations automatically
+            await _context.Database.MigrateAsync();
 
-            var users = new List<User>
+            // Check if already seeded with valid data
+            if (await _context.Users.AnyAsync(u => u.PasswordHash.StartsWith("$2"))) return;
+
+            // Clear stale data (no bcrypt hashes)
+            _context.Users.RemoveRange(_context.Users.Where(u => !u.PasswordHash.StartsWith("$2")));
+            await _context.SaveChangesAsync();
+
+            // ── Users ──────────────────────────────────────────────────────────
+            var customerUser = new User
             {
-                new User { Email = "john.doe@example.com", Name = "John Doe", Role = "customer", PasswordHash = "hashed_pw_1" },
-                new User { Email = "jane.smith@example.com", Name = "Jane Smith", Role = "agent", PasswordHash = "hashed_pw_2" },
-                new User { Email = "admin@hartford.com", Name = "Admin User", Role = "admin", PasswordHash = "hashed_pw_3" }
+                Email = "customer@insurance.com",
+                Name = "John Doe",
+                Role = "customer",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123")
             };
-            await _context.Users.InsertManyAsync(users);
-            
-            var customerUser = users.First(u => u.Role == "customer");
-            var agentUser = users.First(u => u.Role == "agent");
-
-            var customers = new List<Customer>
+            var agentUser = new User
             {
-                new Customer { UserId = customerUser.Id, Name = "John Doe", Email = "john.doe@example.com", Phone = "555-0123", Address = "123 Main St" }
+                Email = "agent@insurance.com",
+                Name = "Jane Smith",
+                Role = "agent",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123")
             };
-            await _context.Customers.InsertManyAsync(customers);
-            var customerId = customers[0].Id;
-
-            var agents = new List<Agent>
+            var adminUser = new User
             {
-                new Agent { Name = "Jane Smith", Email = "jane.smith@example.com", Region = "Northeast" }
+                Email = "admin@insurance.com",
+                Name = "Admin User",
+                Role = "admin",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123")
             };
-            await _context.Agents.InsertManyAsync(agents);
-            var agentId = agents[0].Id;
 
-            var policies = new List<Policy>
+            await _context.Users.AddRangeAsync(customerUser, agentUser, adminUser);
+            await _context.SaveChangesAsync();
+
+            // ── Customer & Agent records ───────────────────────────────────────
+            var customer = new Customer
             {
-                new Policy { CustomerId = customerId, AgentId = agentId, PolicyName = "Standard Auto", Premium = 1200, StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddYears(1) },
-                new Policy { CustomerId = customerId, AgentId = agentId, PolicyName = "Home Insurance", Premium = 850, StartDate = DateTime.UtcNow, EndDate = DateTime.UtcNow.AddYears(1) }
+                UserId = customerUser.Id,
+                Name = "John Doe",
+                Email = "customer@insurance.com",
+                Phone = "555-0123",
+                Address = "123 Main Street, Springfield"
             };
-            await _context.Policies.InsertManyAsync(policies);
-
-            var requests = new List<InsuranceRequest>
+            var agent = new Agent
             {
-                new InsuranceRequest { CustomerId = customerId, Type = "Life", Amount = 500000, Status = "Pending" },
-                new InsuranceRequest { CustomerId = customerId, AgentId = agentId, Type = "Auto", Amount = 30000, Status = "Approved" }
+                Name = "Jane Smith",
+                Email = "agent@insurance.com",
+                Region = "Northeast"
             };
-            await _context.InsuranceRequests.InsertManyAsync(requests);
 
-            await _context.Notifications.InsertOneAsync(new Notification { UserId = customerUser.Id, Message = "Welcome to Hartford Insurance!", Date = DateTime.UtcNow });
+            await _context.Customers.AddAsync(customer);
+            await _context.Agents.AddAsync(agent);
+            await _context.SaveChangesAsync();
+
+            // ── Policies ───────────────────────────────────────────────────────
+            var policy1 = new Policy
+            {
+                CustomerId = customer.Id,
+                AgentId = agent.Id,
+                PolicyName = "Standard Auto Insurance",
+                Premium = 1200.00m,
+                StartDate = DateTime.UtcNow,
+                EndDate = DateTime.UtcNow.AddYears(1),
+                Status = "Active"
+            };
+            var policy2 = new Policy
+            {
+                CustomerId = customer.Id,
+                AgentId = agent.Id,
+                PolicyName = "Home Insurance Premium",
+                Premium = 850.00m,
+                StartDate = DateTime.UtcNow,
+                EndDate = DateTime.UtcNow.AddYears(1),
+                Status = "Active"
+            };
+
+            await _context.Policies.AddRangeAsync(policy1, policy2);
+            await _context.SaveChangesAsync();
+
+            // ── Insurance Requests ─────────────────────────────────────────────
+            var request1 = new InsuranceRequest
+            {
+                CustomerId = customer.Id,
+                AgentId = agent.Id,
+                Type = "Life",
+                Amount = 500000.00m,
+                Status = "Pending"
+            };
+            var request2 = new InsuranceRequest
+            {
+                CustomerId = customer.Id,
+                AgentId = agent.Id,
+                Type = "Auto",
+                Amount = 30000.00m,
+                Status = "Approved"
+            };
+
+            await _context.InsuranceRequests.AddRangeAsync(request1, request2);
+            await _context.SaveChangesAsync();
+
+            // ── Policy Recommendations ─────────────────────────────────────────
+            await _context.PolicyRecommendations.AddRangeAsync(
+                new PolicyRecommendation
+                {
+                    RequestId = request1.Id,
+                    PolicyName = "Premium Life Cover",
+                    Premium = 750.00m,
+                    Coverage = "Up to ₹50,00,000"
+                },
+                new PolicyRecommendation
+                {
+                    RequestId = request2.Id,
+                    PolicyName = "Comprehensive Auto",
+                    Premium = 1200.00m,
+                    Coverage = "Full damage + third-party"
+                }
+            );
+
+            // ── Notifications ──────────────────────────────────────────────────
+            await _context.Notifications.AddRangeAsync(
+                new Notification { UserId = customerUser.Id, Message = "Welcome to Hartford Insurance!", Date = DateTime.UtcNow },
+                new Notification { UserId = agentUser.Id, Message = "You have a new insurance request from John Doe.", Date = DateTime.UtcNow }
+            );
+
+            // ── Policy Application ─────────────────────────────────────────────
+            await _context.PolicyApplications.AddAsync(new PolicyApplication
+            {
+                AgentId = agent.Id,
+                CustomerId = customer.Id,
+                PolicyName = "Term Life Insurance",
+                Status = "Pending"
+            });
+
+            await _context.SaveChangesAsync();
         }
     }
 }

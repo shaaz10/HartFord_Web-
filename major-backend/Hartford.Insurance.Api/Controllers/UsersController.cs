@@ -1,58 +1,54 @@
 using Hartford.Insurance.Api.Models;
 using Hartford.Insurance.Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hartford.Insurance.Api.Controllers
 {
     [ApiController]
     [Route("api/users")]
+    [Authorize(Policy = "AdminOnly")]
     public class UsersController : ControllerBase
     {
         private readonly UserService _service;
-
-        public UsersController(UserService service)
-        {
-            _service = service;
-        }
+        public UsersController(UserService service) => _service = service;
 
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetAll()
+        public async Task<ActionResult<List<User>>> GetAll() => await _service.GetAllAsync();
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<User>> GetById(int id)
         {
-            return await _service.GetAllAsync();
+            var user = await _service.GetByIdAsync(id);
+            return user == null ? NotFound() : user;
         }
 
         [HttpGet("by-email")]
         public async Task<ActionResult<User>> GetByEmail([FromQuery] string email)
         {
             var user = await _service.GetByEmailAsync(email);
-            if (user == null) return NotFound();
-            return user;
+            return user == null ? NotFound() : user;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(User user)
         {
-            await _service.CreateAsync(user);
-            return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
+            var created = await _service.CreateAsync(user);
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetById(string id)
+        [HttpPatch("{id:int}")]
+        public async Task<IActionResult> Update(int id, User user)
         {
-            var user = await _service.GetByIdAsync(id);
-            if (user == null) return NotFound();
-            return user;
+            var result = await _service.UpdateAsync(id, user);
+            return result == null ? NotFound() : NoContent();
         }
 
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> Update(string id, User user)
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var existing = await _service.GetByIdAsync(id);
-            if (existing == null) return NotFound();
-
-            user.Id = id; // Ensure ID matches URL
-            await _service.UpdateAsync(id, user);
-            return NoContent();
+            var deleted = await _service.DeleteAsync(id);
+            return deleted ? NoContent() : NotFound();
         }
     }
 }

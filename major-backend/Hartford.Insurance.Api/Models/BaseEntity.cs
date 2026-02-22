@@ -1,18 +1,15 @@
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hartford.Insurance.Api.Models
 {
     public abstract class BaseEntity
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.String)]
-        public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
-        [BsonElement("createdAt")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        [BsonElement("updatedAt")]
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }

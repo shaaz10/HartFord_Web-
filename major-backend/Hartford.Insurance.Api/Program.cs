@@ -1,14 +1,17 @@
 using Hartford.Insurance.Api.Data;
 using Hartford.Insurance.Api.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// ─── EF Core — SQL Server ─────────────────────────────────────────────────────
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 
-// MongoDB Context
-builder.Services.AddSingleton<MongoDbContext>();
-
-// Services
+// ─── Domain Services ──────────────────────────────────────────────────────────
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<InsuranceRequestService>();
 builder.Services.AddScoped<PolicyRecommendationService>();
@@ -20,54 +23,89 @@ builder.Services.AddScoped<CustomerService>();
 builder.Services.AddScoped<PaymentService>();
 builder.Services.AddScoped<NotificationService>();
 
+// ─── Auth Service ─────────────────────────────────────────────────────────────
+builder.Services.AddScoped<AuthService>();
+
+// ─── JWT Authentication ───────────────────────────────────────────────────────
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var secretKey = jwtSettings["SecretKey"]!;
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+// ─── Role-Based Authorization Policies ───────────────────────────────────────
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly",    policy => policy.RequireRole("admin"));
+    options.AddPolicy("AgentOrAdmin", policy => policy.RequireRole("agent", "admin"));
+    options.AddPolicy("CustomerOnly", policy => policy.RequireRole("customer"));
+    options.AddPolicy("Authenticated",policy => policy.RequireAuthenticatedUser());
+});
+
+// ─── Controllers ──────────────────────────────────────────────────────────────
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.PropertyNamingPolicy = null; // Use original property names (or camelCase if desired, but default is camelCase)
-        // Actually, default is camelCase. If current JSON has "Name": "John", we might need Pascal.
-        // But common JS frameworks expect camelCase.
-        // User said: "Collections must match JSON structure names". Usually implies fields too.
-        // I'll stick to default camelCase.
+        options.JsonSerializerOptions.PropertyNamingPolicy = null;
     });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// ─── Swagger / OpenAPI ────────────────────────────────────────────────────────
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// CORS
+// ─── CORS ─────────────────────────────────────────────────────────────────────
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngularDev",
-        builder =>
+    options.AddPolicy("AllowAngularDev", policy =>
+    {
+        policy.SetIsOriginAllowed(origin =>
         {
-            builder.WithOrigins("http://localhost:4200", "http://localhost:3000") // Angular default 4200, JSON server was 3000. Assuming frontend might be on 4200.
-                   .AllowAnyHeader()
-                   .AllowAnyMethod();
-        });
+            var uri = new Uri(origin);
+            return uri.Host == "localhost" || uri.Host == "127.0.0.1";
+        })
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// ─── Dev Middleware ───────────────────────────────────────────────────────────
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    // Data Seeding
-    using (var scope = app.Services.CreateScope())
-    {
-        var services = scope.ServiceProvider;
-        var context = services.GetRequiredService<MongoDbContext>();
-        var seeder = new DbSeeder(context);
-        await seeder.SeedAsync();
-    }
 }
 
+// ─── Seed Database (always — MigrateAsync inside handles idempotency) ─────────
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var seeder  = new DbSeeder(context);
+    await seeder.SeedAsync();
+}
+
+// ─── Middleware Pipeline ──────────────────────────────────────────────────────
 app.UseCors("AllowAngularDev");
-
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

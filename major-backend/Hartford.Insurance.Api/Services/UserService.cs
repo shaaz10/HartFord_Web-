@@ -1,16 +1,14 @@
-using Hartford.Insurance.Api.Models;
 using Hartford.Insurance.Api.Data;
-using MongoDB.Driver;
+using Hartford.Insurance.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hartford.Insurance.Api.Services
 {
     public class UserService : BaseService<User>
     {
-        public UserService(MongoDbContext context) : base(context.Users) { }
+        public UserService(AppDbContext db) : base(db) { }
 
         public async Task<User?> GetByEmailAsync(string email)
-        {
-            return await _collection.Find(x => x.Email == email).FirstOrDefaultAsync();
-        }
+            => await _set.FirstOrDefaultAsync(u => u.Email == email);
     }
 }

@@ -1,16 +1,14 @@
-using Hartford.Insurance.Api.Models;
 using Hartford.Insurance.Api.Data;
-using MongoDB.Driver;
+using Hartford.Insurance.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hartford.Insurance.Api.Services
 {
     public class NotificationService : BaseService<Notification>
     {
-        public NotificationService(MongoDbContext context) : base(context.Notifications) { }
+        public NotificationService(AppDbContext db) : base(db) { }
 
-        public async Task<List<Notification>> GetByUserIdAsync(string userId)
-        {
-            return await _collection.Find(x => x.UserId == userId).ToListAsync();
-        }
+        public async Task<List<Notification>> GetByUserIdAsync(int userId)
+            => await _set.Where(n => n.UserId == userId).ToListAsync();
     }
 }

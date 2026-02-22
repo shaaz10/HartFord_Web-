@@ -1,43 +1,38 @@
 using Hartford.Insurance.Api.Models;
 using Hartford.Insurance.Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hartford.Insurance.Api.Controllers
 {
     [ApiController]
     [Route("api/policyRecommendations")]
+    [Authorize]
     public class PolicyRecommendationsController : ControllerBase
     {
         private readonly PolicyRecommendationService _service;
-
-        public PolicyRecommendationsController(PolicyRecommendationService service)
-        {
-            _service = service;
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PolicyRecommendation>> GetById(string id)
-        {
-            var result = await _service.GetByIdAsync(id);
-            if (result == null) return NotFound();
-            return result;
-        }
+        public PolicyRecommendationsController(PolicyRecommendationService service) => _service = service;
 
         [HttpGet]
-        public async Task<ActionResult<List<PolicyRecommendation>>> GetAll([FromQuery] string? requestId)
+        public async Task<ActionResult<List<PolicyRecommendation>>> GetAll([FromQuery] int? requestId)
         {
-            if (!string.IsNullOrEmpty(requestId))
-            {
-                return await _service.GetByRequestIdAsync(requestId);
-            }
+            if (requestId.HasValue) return await _service.GetByRequestIdAsync(requestId.Value);
             return await _service.GetAllAsync();
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<PolicyRecommendation>> GetById(int id)
+        {
+            var result = await _service.GetByIdAsync(id);
+            return result == null ? NotFound() : result;
+        }
+
         [HttpPost]
+        [Authorize(Policy = "AgentOrAdmin")]
         public async Task<IActionResult> Create(PolicyRecommendation recommendation)
         {
-            await _service.CreateAsync(recommendation);
-            return CreatedAtAction(nameof(GetById), new { id = recommendation.Id }, recommendation);
+            var created = await _service.CreateAsync(recommendation);
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
     }
 }
