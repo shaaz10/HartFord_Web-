@@ -1,0 +1,6 @@
+@SeedingApi_HostAddress = http://localhost:5142
+
+GET {{SeedingApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

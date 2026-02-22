@@ -1,0 +1,175 @@
+<div class="max-w-7xl mx-auto p-8 font-sans">
+
+  <!-- HEADER -->
+  <div class="flex justify-between items-center mb-8">
+    <h2 class="text-3xl font-bold text-gray-800 tracking-tight">
+      Customer Management
+    </h2>
+    <span class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-medium">
+      {{ customers.length }} Customers
+    </span>
+  </div>
+
+  <!-- LOADING -->
+  @if (isLoading) {
+    <div class="flex justify-center py-12">
+      <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+    </div>
+  }
+
+  <!-- ERROR -->
+  @if (error) {
+    <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg mb-6">
+      {{ error }}
+    </div>
+  }
+
+  <!-- ADD CUSTOMER CARD -->
+  <div class="bg-white rounded-2xl shadow-lg p-8 mb-10 border border-gray-100">
+    <h3 class="text-xl font-semibold mb-6 text-gray-700">
+      Add New Customer
+    </h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+      <input
+        class="border border-gray-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+        placeholder="Full Name"
+        [(ngModel)]="newCustomer.name"
+      />
+      <input
+        class="border border-gray-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+        placeholder="Email Address"
+        [(ngModel)]="newCustomer.email"
+      />
+      <input
+        class="border border-gray-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+        placeholder="City"
+        [(ngModel)]="newCustomer.city"
+      />
+      <button
+        (click)="addCustomer()"
+        class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl px-4 py-2 font-medium hover:scale-105 transform transition shadow-md"
+      >
+        + Add Customer
+      </button>
+    </div>
+  </div>
+
+  <!-- EDIT CARD -->
+  @if (editingCustomer) {
+    <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-8 mb-10 shadow-md">
+      <h3 class="text-xl font-semibold mb-6 text-yellow-700">
+        Editing Customer
+      </h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+        <input
+          class="border border-yellow-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+          [(ngModel)]="editingCustomer.name"
+        />
+        <input
+          class="border border-yellow-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+          [(ngModel)]="editingCustomer.email"
+        />
+        <input
+          class="border border-yellow-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+          [(ngModel)]="editingCustomer.city"
+        />
+        <div class="flex gap-3">
+          <button
+            (click)="updateCustomer()"
+            class="bg-yellow-500 text-white rounded-xl px-4 py-2 font-medium hover:bg-yellow-600 transition shadow"
+          >
+            Save
+          </button>
+          <button
+            (click)="editingCustomer = null"
+            class="bg-gray-200 text-gray-700 rounded-xl px-4 py-2 font-medium hover:bg-gray-300 transition"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- TABLE -->
+  @if (!isLoading && customers.length > 0) {
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+      <table class="min-w-full">
+        <thead class="bg-gray-50 border-b">
+          <tr>
+            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Name
+            </th>
+            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Email
+            </th>
+            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              City
+            </th>
+            <th class="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Status
+            </th>
+            <th class="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Actions
+            </th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-100">
+          @for (c of customers; track c.id) {
+            <tr class="hover:bg-gray-50 transition">
+              <td class="px-6 py-4 font-medium text-gray-800">
+                {{ c.name }}
+              </td>
+              <td class="px-6 py-4 text-gray-600">
+                {{ c.email }}
+              </td>
+              <td class="px-6 py-4 text-gray-600">
+                {{ c.city }}
+              </td>
+
+              <!-- STATUS BADGE -->
+              <td class="px-6 py-4 text-center">
+                <span
+                  class="px-3 py-1 text-xs font-medium rounded-full"
+                  [ngClass]="c.isActive 
+                    ? 'bg-green-100 text-green-700' 
+                    : 'bg-red-100 text-red-700'"
+                >
+                  {{ c.isActive ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+
+              <!-- ACTION BUTTONS -->
+              <td class="px-6 py-4 text-center space-x-3">
+                <button
+                  (click)="editCustomer(c)"
+                  class="bg-green-500 text-white px-4 py-1.5 rounded-lg hover:bg-green-600 transition shadow-sm"
+                >
+                  Edit
+                </button>
+                <button
+                  (click)="deleteCustomer(c.id)"
+                  class="bg-red-500 text-white px-4 py-1.5 rounded-lg hover:bg-red-600 transition shadow-sm"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <!-- EMPTY STATE -->
+  @if (!isLoading && customers.length === 0) {
+    <div class="text-center py-12 text-gray-500">
+      <p class="text-lg">No customers found.</p>
+      <p class="text-sm">Add your first customer above 👆</p>
+    </div>
+  }
+
+</div>
