@@ -1,49 +1,50 @@
 ﻿using CrudCustomers.Models;
 using CrudCustomers.Repositories;
-using CrudCustomers.Models;
-using CrudCustomers.Repositories;
+
 namespace CrudCustomers.Services
 {
-    
+    public class CustomerService : ICustomerService
+    {
+        private readonly ICustomerRepository _repository;
 
-   
-        public class CustomerService : ICustomerService
+        public CustomerService(ICustomerRepository repository)
         {
-            private readonly ICustomerRepository _repository;
+            _repository = repository;
+        }
 
-            public CustomerService(ICustomerRepository repository)
-            {
-                _repository = repository;
-            }
+        public async Task<IEnumerable<Customer>> GetAllCustomersAsync()
+        {
+            return await _repository.GetAllAsync();
+        }
 
-            public async Task<IEnumerable<Customer>> GetAllCustomersAsync()
-            {
-                return await _repository.GetAllAsync();
-            }
+        public async Task<Customer?> GetCustomerByIdAsync(string id)
+        {
+            return await _repository.GetByIdAsync(id);
+        }
 
-            public async Task<Customer?> GetCustomerByIdAsync(string id)
-            {
-                return await _repository.GetByIdAsync(id);
-            }
+        public async Task<Customer> CreateCustomerAsync(Customer customer)
+        {
+            return await _repository.AddAsync(customer);
+        }
 
-            public async Task<Customer> CreateCustomerAsync(Customer customer)
-            {
-                return await _repository.AddAsync(customer);
-            }
+        public async Task<Customer?> UpdateCustomerAsync(string id, Customer customer)
+        {
+            if (id != customer.Id)
+                return null;
 
-            public async Task<Customer?> UpdateCustomerAsync(string id, Customer customer)
-            {
-                if (id != customer.Id)
-                    return null;
+            return await _repository.UpdateAsync(customer);
+        }
 
-                return await _repository.UpdateAsync(customer);
-            }
+        public async Task<bool> DeleteCustomerAsync(string id)
+        {
+            return await _repository.DeleteAsync(id);
+        }
 
-            public async Task<bool> DeleteCustomerAsync(string id)
-            {
-                return await _repository.DeleteAsync(id);
-            }
+        public async Task<Feedback> AddFeedbackAsync(Feedback feedback)
+        {
+            return await _repository.AddFeedbackAsync(feedback);
         }
     }
+}
 
 
